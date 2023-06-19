@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <h1 class="text-center my-3" style="color: #fff">{{ title }}</h1>
+
+  <div class="d-flex flex-column justify-content-center">
+    <div
+      class="container px-4 d-flex flex-column justify-content-center login-box mx-auto bg-blur"
+    >
+      <h3 class="my-4 text-center">Login with Trello-Like</h3>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-2">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="email"
+            class="form-control"
+            id="username"
+            formControlName="username"
+            placeholder="name@example.com"
+          />
+        </div>
+        <div class="mb-2">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="abc@1234"
+          />
+        </div>
+        <div class="d-grid gap-2 mt-4 mb-3">
+          <button class="btn btn-green" [disabled]="loginForm.invalid">
+            Continue
+          </button>
+        </div>
+      </form>
+
+      <h5 class="text-center">OR</h5>
+
+      <app-facebook-login></app-facebook-login>
+      <app-google-login></app-google-login>
+      <app-linkedin-login></app-linkedin-login>
+
+      <hr />
+      <a routerLink="/signup" class="text-center mb-4" (click)="setDisplay()"
+        >Don't have an account? sign up for free</a
+      >
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

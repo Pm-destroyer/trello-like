@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+body {
+    background-image: url("./assets/blur-bg.jpg");
+    background-size: cover; /* Optional: Adjust the background size */
+    background-repeat: no-repeat; /* Optional: Prevent the image from repeating */
+  }

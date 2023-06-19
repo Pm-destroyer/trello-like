@@ -1,0 +1,82 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="addBoard"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="addBoardLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div
+        class="modal-header mb-2"
+        style="background-color: #233241; color: #fff"
+      >
+        <div>
+          <h4 class="modal-title d-block" id="addBoardLabel">
+            Add new board
+          </h4>
+          <p class="d-block m-0">
+            A Board is where you can add your activities to get tracked.
+          </p>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="onCancel()"
+        ></button>
+      </div>
+      <form [formGroup]="addBoardForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+          <div class="mb-3">
+            <strong for="name" class="form-label">Board name</strong>
+            <input
+              type="email"
+              class="form-control"
+              id="name"
+              formControlName="name"
+              placeholder="Taco's Co."
+            />
+            <em
+              *ngIf="addBoardForm.get('name')?.invalid && display"
+              style="color: red"
+              >Please enter a valid name</em
+            >
+          </div>
+          <div class="mb-3">
+            <strong for="description" class="form-label">
+              Board description
+            </strong>
+            <span>(Optional)</span>
+            <textarea
+              class="form-control"
+              id="description"
+              rows="3"
+              formControlName="description"
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer" style="background-color: #233241">
+          <button
+            #modalclose
+            type="button"
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+            (click)="onCancel()"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-success" (click)="onSubmit()">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

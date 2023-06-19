@@ -1,0 +1,130 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid card my-2 d-flex flex-row">
+  <div *ngIf="workspaceDetails" class="card-body">
+    <h4
+      class="card-title"
+      [id]="'h-' + workspaceDetails.id"
+      (dblclick)="showHeadingEdit(workspaceDetails.id, workspaceDetails.name)"
+    >
+      {{ workspaceDetails.name }}
+    </h4>
+    <form
+      [formGroup]="WorkspaceHeadingForm"
+      [id]="'form-' + workspaceDetails.id"
+      style="display: none"
+    >
+      <div>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="name"
+          [id]="'input-' + workspaceDetails.id"
+          (blur)="editHeading(workspaceDetails.id)"
+        />
+        <em *ngIf="WorkspaceHeadingForm.get('name')?.invalid" style="color: red"
+          >Please enter a valid name</em
+        >
+      </div>
+    </form>
+    <h6 class="card-subtitle mb-4 text-muted">
+      {{ workspaceDetails.workspace_type.type }}
+    </h6>
+    <p class="card-text">
+      {{
+        workspaceDetails.description !== ""
+          ? workspaceDetails.description
+          : "No description"
+      }}
+    </p>
+    <a
+      type="button"
+      class="card-link"
+      data-bs-toggle="modal"
+      data-bs-target="#addBoard"
+      *ngIf="workspaceDetails.userId === userId"
+      >Add new Board</a
+    >
+    <a
+      type="button"
+      class="card-link"
+      data-bs-toggle="modal"
+      data-bs-target="#addMember"
+      *ngIf="workspaceDetails.userId === userId"
+      >Add member</a
+    >
+  </div>
+
+  <div class="card-body">
+    <h4 class="card-title mb-2">Your boards</h4>
+    <div *ngIf="boards.length > 0; else elseBoard">
+      <p
+        type="button"
+        *ngFor="let board of boards; let index = index"
+        class="card-text mb-2"
+      >
+        {{ index + 1 }}.
+        <a
+          routerLink="/workspace/{{ workspaceDetails.id }}/board/{{ board.id }}"
+        >
+          {{ board.name }}</a
+        >
+      </p>
+    </div>
+  </div>
+
+  <ng-template #elseBoard>
+    <p class="card-text mb-2">No boards have been added</p>
+  </ng-template>
+
+  <div class="card-body">
+    <h4 class="card-title">Members</h4>
+    <div *ngIf="members && memberLists.length > 0; else elseMember">
+      <div>
+        <p
+          *ngFor="let member of memberLists; let index = index"
+          class="card-text mb-2"
+        >
+          {{ index + 1 }}. {{ member.username }}
+          <i
+            *ngIf="workspaceDetails.userId === userId"
+            type="button"
+            class="bi bi-x-square-fill text-danger"
+            (click)="
+              removeMember(
+                member.id,
+                member.username,
+                workspaceDetails.userId,
+                workspaceDetails.id
+              )
+            "
+          ></i>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #elseMember>
+    <p class="card-text mb-2">No members have been added</p>
+  </ng-template>
+
+  <div class="card-body">
+    <h4 class="card-title">Admin</h4>
+    <p type="button" class="card-text mb-2">
+      {{ username }}
+    </p>
+  </div>
+</div>
+
+<app-add-board
+  [workspaceId]="id"
+  (getboard)="getboard(userId, id)"
+></app-add-board>
+
+<app-add-member
+  [workspaceId]="id"
+  [addedMembers]="members"
+  [members]="membersDrop"
+  (getWorkspaceDetails)="getWorkspaceDetails(id)"
+  (fetchUserList)="fetchUserList()"
+></app-add-member>

@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <h1 class="text-center my-3" style="color: #fff">{{ title }}</h1>
+
+  <div class="d-flex flex-column justify-content-center">
+    <div
+      class="container px-4 d-flex flex-column justify-content-center login-box mx-auto bg-blur"
+    >
+      <h3 class="my-4 text-center">Sign-up on Trello-Like</h3>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="mb-2">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="email"
+            class="form-control"
+            id="username"
+            formControlName="username"
+            placeholder="name@example.com"
+          />
+          <em
+            *ngIf="signupForm.get('username')?.invalid && display"
+            style="color: red"
+            >Please enter a valid username</em
+          >
+          <em *ngIf="message !== '' && display" style="color: red">{{
+            message
+          }}</em>
+        </div>
+        <div class="mb-2">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="abc@1234"
+          />
+          <em
+            *ngIf="signupForm.get('password')?.invalid && display"
+            style="color: red"
+            >Minimum length must be 5 character</em
+          >
+        </div>
+        <div class="mb-2">
+          <label for="password" class="form-label">Confirm password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="confirmPassword"
+            placeholder="abc@1234"
+          />
+          <em
+            *ngIf="
+              signupForm.value.password !== signupForm.value.confirmPassword &&
+              display
+            "
+            style="color: red"
+            >This must be same as the above password</em
+          >
+        </div>
+        <div class="d-grid gap-2 mt-4 mb-3">
+          <button class="btn btn-green">Continue</button>
+        </div>
+      </form>
+
+      <hr />
+      <a routerLink="/login" class="text-center mb-4"
+        >Already have an account? Login from here</a
+      >
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

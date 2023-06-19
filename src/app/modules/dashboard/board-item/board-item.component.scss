@@ -1,0 +1,11 @@
+.strike {
+    text-decoration: line-through;
+}
+
+.edit {
+    padding: 0.2rem;
+    
+    &:hover{
+        background-color: darken(#fff, 20%);
+    }
+}

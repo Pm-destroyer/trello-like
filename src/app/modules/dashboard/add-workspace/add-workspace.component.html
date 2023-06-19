@@ -1,0 +1,105 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="addWorkspace"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="addWorkspaceLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div
+        class="modal-header mb-2"
+        style="background-color: #233241; color: #fff"
+      >
+        <div>
+          <h4 class="modal-title d-block" id="addWorkspaceLabel">
+            Let's build a Workspace
+          </h4>
+          <p class="d-block m-0">
+            Boost your productivity by making it easier for everyone to access
+            boards in one location.
+          </p>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="onCancel()"
+        ></button>
+      </div>
+      <form [formGroup]="addWorkspaceForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+          <div class="mb-3">
+            <strong for="name" class="form-label">Workspace name</strong>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              formControlName="name"
+              placeholder="Taco's Co."
+            />
+            <em
+              *ngIf="addWorkspaceForm.get('name')?.invalid && display"
+              style="color: red"
+              >Please enter a valid name</em
+            >
+          </div>
+          <div class="mb-3">
+            <strong for="type" class="form-label">Workspace type</strong>
+            <select
+              id="type"
+              formControlName="type"
+              class="form-select"
+              aria-label="Default select example"
+            >
+              <option selected disabled value="select">Choose...</option>
+              <option
+                *ngFor="let workspaceType of workspaceTypes"
+                [value]="workspaceType.id"
+              >
+                {{ workspaceType.type }}
+              </option>
+            </select>
+            <em
+              *ngIf="addWorkspaceForm.get('type')?.invalid && display"
+              style="color: red"
+              >Please choose workspace type</em
+            >
+          </div>
+          <div class="mb-3">
+            <strong for="description" class="form-label">
+              Workspace description
+            </strong>
+            <span>(Optional)</span>
+            <textarea
+              class="form-control"
+              id="description"
+              rows="3"
+              formControlName="description"
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer" style="background-color: #233241">
+          <button
+            #modalclose
+            type="button"
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+            (click)="onCancel()"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-success" (click)="onSubmit()">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

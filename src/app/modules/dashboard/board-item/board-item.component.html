@@ -1,0 +1,230 @@
+<app-navbar></app-navbar>
+
+<div class="mt-2 container-fluid card">
+  <div class="my-2 d-flex flex-row">
+    <div *ngIf="boardDetails" class="card-body">
+      <h4
+        class="card-title"
+        [id]="'boardHeading-' + boardDetails.id"
+        (dblclick)="showBoardHeadingEdit(boardDetails.id, boardDetails.name)"
+      >
+        {{ boardDetails.name }}
+      </h4>
+      <form
+        [formGroup]="boardHeadingForm"
+        [id]="'boardform-' + boardDetails.id"
+        style="display: none"
+      >
+        <div>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            [id]="'boardinput-' + boardDetails.id"
+            (blur)="editBoardHeading(boardDetails.id)"
+          />
+          <em *ngIf="boardHeadingForm.get('name')?.invalid" style="color: red"
+            >Please enter a valid name</em
+          >
+        </div>
+      </form>
+      <p class="card-text">
+        {{
+          boardDetails.description !== ""
+            ? boardDetails.description
+            : "No description"
+        }}
+      </p>
+      <a
+        type="button"
+        class="card-link"
+        data-bs-toggle="modal"
+        data-bs-target="#addActivity"
+        >Add new Activity</a
+      >
+    </div>
+
+    <div class="card-body">
+      <h4 class="card-title">Members</h4>
+      <div *ngIf="members && members.length > 0; else elseMember">
+        <p
+          type="button"
+          *ngFor="let member of members; let index = index"
+          class="card-text mb-2"
+        >
+          {{ index + 1 }}. {{ member.username }}
+        </p>
+      </div>
+    </div>
+
+    <ng-template #elseMember>
+      <p class="card-text mb-2">No members have been added</p>
+    </ng-template>
+
+    <div class="card-body">
+      <h4 class="card-title">Admin</h4>
+      <p type="button" class="card-text mb-2">
+        {{ username }}
+      </p>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <h4 class="card-title mb-4">Activity lists</h4>
+    <div
+      *ngIf="activityDetails && activityDetails.length > 0; else elseactivity"
+      class="row"
+    >
+      <div
+        *ngFor="let activity of activityDetails; let index = index"
+        class="col-md-4 my-3"
+      >
+        <h6
+          appClickOutside
+          [elemId]="'h-' + activity.id"
+          (clickOutside)="onclickOutside(activity.id)"
+          [ngClass]="{ strike: !activity.active }"
+          class="card-title"
+          [id]="'h-' + activity.id"
+          (mouseenter)="showEdit(activity.id)"
+          (mouseleave)="hideEdit(activity.id)"
+        >
+          {{ index + 1 }} . {{ activity.name }}
+          <span
+            [ngClass]="{ 'd-none': !activity.active }"
+            class="edit mx-2"
+            (click)="onHeadingEdit(activity.id, activity.name)"
+            ><i
+              [id]="'edit-' + activity.id"
+              class="bi bi-pencil"
+              style="display: none"
+            ></i
+          ></span>
+        </h6>
+
+        <form
+          [formGroup]="editHeadingForm"
+          [id]="'form-' + activity.id"
+          style="display: none"
+        >
+          <div>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              [id]="'input-' + activity.id"
+              (blur)="editActivity(activity.id)"
+            />
+            <em *ngIf="editHeadingForm.get('name')?.invalid" style="color: red"
+              >Please enter a valid name</em
+            >
+          </div>
+        </form>
+
+        <div class="mb-2">
+          <p class="text-muted mb-0" style="font-size: 0.7rem">
+            <strong> Created by:</strong>
+            {{ activity.user.id === userId ? "Me" : activity.user.username }}
+          </p>
+
+          <p
+            *ngIf="activity.lastModified !== null"
+            class="text-muted mb-0"
+            style="font-size: 0.7rem"
+          >
+            <strong> Last modified by:</strong>
+            {{
+              activity.lastModified !== null &&
+              activity.lastModifiedBy.id === userId
+                ? "Me"
+                : activity.lastModifiedBy.username
+            }}
+          </p>
+        </div>
+
+        <p
+          appClickOutside
+          [elemId]="'p-' + activity.id"
+          (clickOutside)="onclickOutside(activity.id)"
+          [ngClass]="{ strike: !activity.active }"
+          class="card-text"
+          [id]="'p-' + activity.id"
+          (mouseenter)="showDescEdit(activity.id)"
+          (mouseleave)="hideDescEdit(activity.id)"
+        >
+          {{
+            activity.description !== ""
+              ? activity.description
+              : "No description"
+          }}
+          <span
+            [ngClass]="{ 'd-none': !activity.active }"
+            class="edit mx-2"
+            (click)="onDescEdit(activity.id, activity.description)"
+            ><i
+              [id]="'descEdit-' + activity.id"
+              class="bi bi-pencil"
+              style="display: none"
+            ></i
+          ></span>
+        </p>
+
+        <form
+          [formGroup]="editDescForm"
+          [id]="'formDesc-' + activity.id"
+          style="display: none"
+        >
+          <div>
+            <textarea
+              type="text"
+              class="form-control"
+              formControlName="description"
+              [id]="'inputDesc-' + activity.id"
+              (blur)="editActivityDesc(activity.id)"
+            ></textarea>
+            <em
+              *ngIf="editDescForm.get('description')?.errors?.['required']; else elseError"
+              style="color: red"
+              >Please enter description</em
+            >
+            <ng-template #elseError>
+              <em
+                *ngIf="editDescForm.get('description')?.invalid"
+                style="color: red"
+                >Character length must not excceed 200</em
+              >
+            </ng-template>
+          </div>
+        </form>
+
+        <div class="form-check my-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="markAsDone"
+            [checked]="!activity.active"
+            (click)="markAsDone(activity.id, !activity.active)"
+          />
+          <label class="form-check-label" for="markAsDone">
+            Mark as done
+          </label>
+        </div>
+        <button
+          class="btn btn-sm btn-danger"
+          (click)="deleteActivity(activity.id, userId)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+
+    <ng-template #elseactivity>
+      <p class="card-text mb-2">No activities have been added</p>
+    </ng-template>
+  </div>
+</div>
+
+<app-add-activity
+  [boardId]="boardId"
+  (getactivity)="getActivities(boardId, userId, workspaceId)"
+></app-add-activity>
