@@ -1,10 +1,4 @@
-import {
-  Component,
-  Output,
-  ViewChild,
-  EventEmitter,
-  Input,
-} from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -17,7 +11,6 @@ import { ActivityService } from '../../../services/activity.service';
   styleUrls: ['./add-activity.component.scss'],
 })
 export class AddActivityComponent {
-  @ViewChild('modalclose') modalclose: any;
   @Output() getactivity: EventEmitter<any> = new EventEmitter();
   @Input() boardId!: string;
 
@@ -33,10 +26,6 @@ export class AddActivityComponent {
     name: new FormControl('', [
       Validators.required,
       Validators.pattern(/^[a-z A-Z0-9\.,]{3,50}$/),
-    ]),
-    description: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(200),
     ]),
   });
 
@@ -65,8 +54,6 @@ export class AddActivityComponent {
 
         this.getactivity.emit(this.userId);
 
-        this.modalclose.nativeElement.click();
-
         Swal.fire({
           title: `Your activity has been added succesfully`,
           icon: 'success',
@@ -80,10 +67,28 @@ export class AddActivityComponent {
   }
 
   onCancel() {
+    const div = document.getElementById('addActivity')!;
+    const form = document.getElementById('addActivityForm')!;
+
     this.addActivityForm.reset();
     this.addActivityForm.patchValue({
       name: '',
-      description: '',
     });
+
+    this.display = false;
+
+    div.style.display = 'block';
+    form.style.display = 'none';
+  }
+
+  showAddActivity() {
+    const div = document.getElementById('addActivity')!;
+    const form = document.getElementById('addActivityForm')!;
+    const input = document.getElementById('addInput')!;
+
+    div.style.display = 'none';
+    form.style.display = 'block';
+
+    input?.focus();
   }
 }

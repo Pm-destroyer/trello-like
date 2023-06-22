@@ -13,6 +13,9 @@ import { BoardItemComponent } from './board-item/board-item.component';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { ActivityItemComponent } from './activity-item/activity-item.component';
+import { TaskItemComponent } from './task-item/task-item.component';
+import { AddTaskComponent } from './add-task/add-task.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { ClickOutsideDirective } from '../../directives/click-outside.directive'
     BoardItemComponent,
     AddActivityComponent,
     ClickOutsideDirective,
+    ActivityItemComponent,
+    TaskItemComponent,
+    AddTaskComponent,
   ],
   imports: [
     CommonModule,

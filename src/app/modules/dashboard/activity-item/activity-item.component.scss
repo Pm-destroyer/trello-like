@@ -1,0 +1,12 @@
+.scroll {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.scroll-item {
+    display: inline-flex;
+    white-space: normal;
+    word-break: break-all;
+    max-width: 20rem;   
+}

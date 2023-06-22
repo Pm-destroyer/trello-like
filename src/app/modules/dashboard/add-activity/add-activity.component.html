@@ -1,93 +1,34 @@
-<!-- Modal -->
 <div
-  class="modal fade"
   id="addActivity"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="addActivityLabel"
-  aria-hidden="true"
+  type="button"
+  class="card-body"
+  (click)="showAddActivity()"
 >
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div
-        class="modal-header mb-2"
-        style="background-color: #233241; color: #fff"
-      >
-        <div>
-          <h4 class="modal-title d-block" id="addActivityLabel">
-            Add new activity
-          </h4>
-          <p class="d-block m-0">
-            By adding activities, members can see them and can be updated
-          </p>
-        </div>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          (click)="onCancel()"
-        ></button>
-      </div>
-      <form [formGroup]="addActivityForm" (ngSubmit)="onSubmit()">
-        <div class="container">
-          <div class="mb-3">
-            <strong for="name" class="form-label">Board name</strong>
-            <input
-              type="email"
-              class="form-control"
-              id="name"
-              formControlName="name"
-              placeholder="Taco's Co."
-            />
-            <em
-              *ngIf="addActivityForm.get('name')?.invalid && display"
-              style="color: red"
-              >Please enter a valid activity name</em
-            >
-          </div>
-          <div class="mb-3">
-            <strong for="description" class="form-label">
-              Board description
-            </strong>
-            <textarea
-              class="form-control"
-              id="description"
-              rows="3"
-              formControlName="description"
-            ></textarea>
-            <em
-              *ngIf="addActivityForm.get('description')?.errors?.['required'] && display; else elseError"
-              style="color: red"
-              >Please enter description</em
-            >
-            <ng-template #elseError>
-              <em
-                *ngIf="addActivityForm.get('description')?.invalid && display"
-                style="color: red"
-                >Character length must not excceed 200</em
-              >
-            </ng-template>
-          </div>
-        </div>
-        <div class="modal-footer" style="background-color: #233241">
-          <button
-            #modalclose
-            type="button"
-            class="btn btn-danger"
-            data-bs-dismiss="modal"
-            (click)="onCancel()"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-success" (click)="onSubmit()">
-            Add
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+  <i class="bi bi-plus-lg"></i> Add another list
 </div>
 
-<router-outlet></router-outlet>
+<form
+  id="addActivityForm"
+  [formGroup]="addActivityForm"
+  (ngSubmit)="onSubmit()"
+  style="display: none"
+  class="card-body p-2"
+>
+  <input
+    id="addInput"
+    formControlName="name"
+    type="text"
+    class="form-control p-2 mb-2"
+  />
+  <em *ngIf="addActivityForm.get('name')?.invalid && display" style="color: red"
+    >Please enter a valid activity name</em
+  >
+  <div class="d-flex flex-row justify-content-start">
+    <button id="submitActivity" class="btn btn-sm btn-primary me-3" (click)="onSubmit()">
+      Add list
+    </button>
+    <span type="button" style="font-size: 1.3rem" (click)="onCancel()"
+      ><i class="bi bi-x-lg"></i
+    ></span>
+  </div>
+</form>

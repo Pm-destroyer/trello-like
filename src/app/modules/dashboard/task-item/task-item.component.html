@@ -1,0 +1,115 @@
+<h5 class="fw-bold pb-2" style="font-size: 0.6rem">
+  <img src="../../../../assets/pendingTasks.svg" alt="" /> PENDING TASKS
+</h5>
+
+<div class="text-muted" *ngIf="taskDetails && taskDetails.length > 0">
+  <div
+    *ngFor="let task of taskDetails; let index = index"
+    (mouseover)="showOptions(task.id, 0)"
+    (mouseleave)="hideOptions(task.id, 0)"
+  >
+    <div
+      class="card p-2 mb-2 taskList"
+      *ngIf="task.status === 0"
+      [id]="'task-' + task.id"
+    >
+      <span class="vr divider"></span>
+      <div class="d-inline">
+        {{ task.name }}
+        <span
+          [id]="'threeDot-' + task.id"
+          class="threeDot"
+          (click)="onClickOptions(task.id)"
+          ><i [id]="'icon-' + task.id" class="bi bi-three-dots"></i
+        ></span>
+
+        <div
+          appClickOutside
+          [elemId]="'options-' + task.id"
+          (clickOutside)="clickOutside(task.id)"
+          [id]="'options-' + task.id"
+          class="dropdown-content"
+        >
+          <a (click)="onEdit(task.id, task.name)">Edit</a>
+          <a (click)="markAsDone(task.id, 1)">Mark as done</a>
+          <a>Manage visibility</a>
+        </div>
+      </div>
+    </div>
+
+    <form
+      *ngIf="task.status === 0"
+      [id]="'editTaskForm-' + task.id"
+      [formGroup]="editTaskForm"
+      style="display: none"
+      class="card-body p-2 mb-2"
+    >
+      <textarea
+        [id]="'taskEdit-' + task.id"
+        formControlName="name"
+        type="text"
+        class="form-control"
+        (blur)="editTask(task.id)"
+      ></textarea>
+    </form>
+  </div>
+</div>
+
+<hr class="my-4" />
+
+<h5 class="fw-bold pb-2" style="font-size: 0.6rem">
+  <img src="../../../../assets/markAsDone.svg" alt="" /> MARKED AS DONE
+</h5>
+
+<div *ngIf="taskDetails && taskDetails.length > 0">
+  <div
+    *ngFor="let task of taskDetails; let index = index"
+    (mouseover)="showOptions(task.id, 1)"
+    (mouseleave)="hideOptions(task.id, 1)"
+  >
+    <div
+      class="card p-2 mb-2 taskListDone"
+      *ngIf="task.status === 1"
+      [id]="'task-' + task.id"
+    >
+      <span class="vr dividerDone"></span>
+      <div class="d-inline">
+        {{ task.name }}
+        <span
+          [id]="'threeDot-' + task.id"
+          class="threeDot"
+          (click)="onClickOptions(task.id)"
+          ><i [id]="'icon-' + task.id" class="bi bi-three-dots"></i
+        ></span>
+
+        <div
+          appClickOutside
+          [elemId]="'options-' + task.id"
+          (clickOutside)="clickOutside(task.id)"
+          [id]="'options-' + task.id"
+          class="dropdown-content"
+        >
+          <a (click)="onEdit(task.id, task.name)">Edit</a>
+          <a (click)="markAsDone(task.id, 0)">Mark as pending</a>
+          <a>Manage visibility</a>
+        </div>
+      </div>
+    </div>
+
+    <form
+      *ngIf="task.status === 1"
+      [id]="'editTaskForm-' + task.id"
+      [formGroup]="editTaskForm"
+      style="display: none"
+      class="card-body p-2 mb-2"
+    >
+      <textarea
+        [id]="'taskEdit-' + task.id"
+        formControlName="name"
+        type="text"
+        class="form-control"
+        (blur)="editTask(task.id)"
+      ></textarea>
+    </form>
+  </div>
+</div>

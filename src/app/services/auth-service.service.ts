@@ -20,7 +20,6 @@ export class AuthServiceService {
 
     return new Observable<boolean>((observer) => {
       this.workspace.viewById(id).subscribe((response: any) => {
-        console.log(response);
         if (response !== null) {
           if (response.members !== null) {
             userList = response.members

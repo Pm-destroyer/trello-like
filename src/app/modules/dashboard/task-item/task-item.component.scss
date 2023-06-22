@@ -1,0 +1,80 @@
+.taskList {
+    background-color: #ffeecc;
+    border: none;
+    border-radius: 0.8rem;
+}
+
+.taskListDone {
+    background-color: #C8FAEE;
+    border: none;
+    border-radius: 0.8rem;
+}
+
+.divider {
+    position: absolute;
+    left: 0%;
+    top: percentage(0.2);
+    height: percentage(0.6);
+    width: 0.1rem;
+    border-radius: percentage(0.8) percentage(0.2) percentage(0.2) percentage(0.8);
+    background-color: #cd9c20;
+    
+}
+
+.dividerDone {
+    position: absolute;
+    left: 0%;
+    top: percentage(0.2);
+    height: percentage(0.6);
+    width: 0.1rem;
+    border-radius: percentage(0.8) percentage(0.2) percentage(0.2) percentage(0.8);
+    background-color: #32D59A;
+    
+}
+
+.threeDot {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    z-index: 1;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 20%;
+    display: none;
+
+    &:hover {
+        background-color: darken($color: #fff, $amount: 10%);
+    }
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: -1rem;
+    right: -6rem;
+    background-color: #f9f9f9;
+    min-width: 9rem;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+
+    a {
+        color: black;
+        padding: 0.5rem;
+        text-decoration: none;
+        display: block;
+
+        &:hover {
+            background-color: darken(#f9f9f9, 10%);
+        }
+    }
+}
+
+.actionsPending {
+    background: linear-gradient(to right, #ffeecc, darken(#ffeecc, 20%));;
+}
+
+.actionsDone {
+    background: linear-gradient(to right, #C8FAEE, darken(#C8FAEE, 20%));;
+}

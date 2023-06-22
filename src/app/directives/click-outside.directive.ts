@@ -16,7 +16,6 @@ export class ClickOutsideDirective {
 
   constructor(private elementRef: ElementRef) {}
 
-
   @HostListener('document:click', ['$event.target'])
   public onClick(targetElement: any): void {
     const target = document.getElementById(this.elemId);

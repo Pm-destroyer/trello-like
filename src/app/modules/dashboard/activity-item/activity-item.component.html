@@ -1,0 +1,101 @@
+<div id="activity-item" class="card-body scroll">
+  <div *ngIf="activityDetails && activityDetails.length > 0" class="d-inline">
+    <div
+      *ngFor="let activity of activityDetails; let index = index"
+      class="card scroll-item me-4"
+      style="width: 20rem"
+    >
+      <div class="card-body">
+        <div class="row">
+          <h5
+            class="card-title col-md-10"
+            [id]="'activityHeading-' + activity.id"
+            (dblclick)="showActivityHeadingEdit(activity.id, activity.name)"
+          >
+            {{ index + 1 }} . {{ activity.name }}
+          </h5>
+
+          <form
+            [formGroup]="activityHeadingForm"
+            [id]="'activityform-' + activity.id"
+            class="col-md-10"
+            style="display: none"
+          >
+            <div>
+              <input
+                type="text"
+                class="form-control p-1"
+                formControlName="name"
+                [id]="'activityinput-' + activity.id"
+                (blur)="editactivityHeading(activity.id)"
+              />
+              <em
+                *ngIf="activityHeadingForm.get('name')?.invalid"
+                style="color: red"
+                >Please enter a valid name</em
+              >
+            </div>
+          </form>
+
+          <div class="col-md-2">
+            <img
+              src="../../../../assets/deleteIcon.svg"
+              alt=""
+              (click)="deleteActivity(activity.id, userId)"
+            />
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <p class="text-muted mb-0" style="font-size: 0.6rem">
+            <strong> Created by:</strong>
+            <span style="color: #0e6dc5">
+              {{ activity.user.id === userId ? "You" : activity.user.username }}
+            </span>
+          </p>
+
+          <p
+            *ngIf="activity.lastModified !== null"
+            class="text-muted mb-0"
+            style="font-size: 0.6rem"
+          >
+            <strong> Last modified by:</strong>
+            <span style="color: #0e6dc5">
+              {{
+                activity.lastModified !== null &&
+                activity.lastModifiedBy.id === userId
+                  ? "You"
+                  : activity.lastModifiedBy.username
+              }}
+            </span>
+          </p>
+        </div>
+
+        <hr class="text-muted" />
+
+        <app-task-item
+          (getTask)="getTask(activity.id)"
+          [taskDetails]="taskDetails[activity.id]"
+          [activityId]="activity.id"
+        ></app-task-item>
+
+        <hr class="text-muted my-4" />
+
+        <div class="mb-2">
+          <app-add-task
+            [activityIndex]="index"
+            [activityId]="activity.id"
+            (getTask)="getTask(activity.id)"
+          ></app-add-task>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card scroll-item me-4" style="width: 20rem">
+    <app-add-activity
+      [boardId]="boardId"
+      (getactivity)="getActivities(boardId, userId, workspaceId)"
+    ></app-add-activity>
+  </div>
+</div>

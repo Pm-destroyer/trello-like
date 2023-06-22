@@ -1,0 +1,23 @@
+<div
+  [id]="'addTask-' + activityIndex"
+  type="button"
+  class="card-body p-2 addtask text-center"
+  (click)="showAddActivity()"
+>
+  ADD A TASK
+</div>
+
+<form
+  [id]="'addTaskForm-' + activityIndex"
+  [formGroup]="addTaskForm"
+  style="display: none"
+  class="card-body p-0"
+>
+  <textarea
+    [id]="'taskInput-' + activityIndex"
+    formControlName="name"
+    type="text"
+    class="form-control"
+    (blur)="onCancel()"
+  ></textarea>
+</form>
