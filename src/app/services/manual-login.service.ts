@@ -30,4 +30,11 @@ export class ManualLoginService {
       workspaceId: workspaceId,
     });
   }
+
+  userDropByWorkspace(id: number, workspaceId: string) {
+    return this.http.post(this.rootURL + '/userDropByWorkspace', {
+      id: id,
+      workspaceId: workspaceId,
+    });
+  }
 }

@@ -1,0 +1,76 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="manageVisibility"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="manageVisibilityLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div
+        class="modal-header mb-2"
+        style="background-color: #233241; color: #fff"
+      >
+        <div>
+          <h4 class="modal-title d-block" id="manageVisibilityLabel">
+            Add new member
+          </h4>
+          <p class="d-block m-0">
+            Members can see all the boards of this workspaces.
+          </p>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="onCancel()"
+        ></button>
+      </div>
+      <form [formGroup]="manageVisibilityForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+          <div class="mb-3">
+            <p for="member" class="form-label fw-bold mb-2">
+              Invite to Workspace
+            </p>
+            <ng-select
+              [items]="membersDrop"
+              bindLabel="username"
+              bindValue="id"
+              [multiple]="true"
+              groupBy="selectedAllGroup"
+              [selectableGroup]="true"
+              placeholder="email address"
+              formControlName="visibleTo"
+            >
+            </ng-select>
+            <em
+              *ngIf="manageVisibilityForm.get('members')?.invalid && display"
+              style="color: red"
+              >Please select an user</em
+            >
+          </div>
+        </div>
+        <div class="modal-footer" style="background-color: #233241">
+          <button
+            #modalclose
+            type="button"
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+            (click)="onCancel()"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-success" (click)="onSubmit()">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

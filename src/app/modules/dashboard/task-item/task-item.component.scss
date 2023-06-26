@@ -2,12 +2,20 @@
     background-color: #ffeecc;
     border: none;
     border-radius: 0.8rem;
+
+    &:hover {
+        background: linear-gradient(to right, #ffeecc, darken(#ffeecc, 10%));
+    }
 }
 
 .taskListDone {
     background-color: #C8FAEE;
     border: none;
     border-radius: 0.8rem;
+
+    &:hover {
+        background: linear-gradient(to right, #C8FAEE, darken(#C8FAEE, 20%));
+    }
 }
 
 .divider {
@@ -69,12 +77,4 @@
             background-color: darken(#f9f9f9, 10%);
         }
     }
-}
-
-.actionsPending {
-    background: linear-gradient(to right, #ffeecc, darken(#ffeecc, 20%));;
-}
-
-.actionsDone {
-    background: linear-gradient(to right, #C8FAEE, darken(#C8FAEE, 20%));;
 }

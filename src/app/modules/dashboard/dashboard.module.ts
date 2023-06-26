@@ -16,6 +16,7 @@ import { ClickOutsideDirective } from '../../directives/click-outside.directive'
 import { ActivityItemComponent } from './activity-item/activity-item.component';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { AddTaskComponent } from './add-task/add-task.component';
+import { ManageVisibilityComponent } from './manage-visibility/manage-visibility.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AddTaskComponent } from './add-task/add-task.component';
     ActivityItemComponent,
     TaskItemComponent,
     AddTaskComponent,
+    ManageVisibilityComponent,
   ],
   imports: [
     CommonModule,

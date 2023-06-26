@@ -1,8 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewContainerRef,
+  ComponentFactoryResolver,
+  ViewChild,
+  ElementRef,
+  ComponentRef,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { TaskService } from '../../../services/task.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-task-item',
@@ -10,13 +22,18 @@ import { ManualLoginService } from '../../../services/manual-login.service';
   styleUrls: ['./task-item.component.scss'],
 })
 export class TaskItemComponent {
+  myModal!: ViewContainerRef;
+
   @Input() activityId!: number;
   @Input() taskDetails!: any;
   @Output() getTask: EventEmitter<any> = new EventEmitter();
+  @Output() getActivities: EventEmitter<any> = new EventEmitter();
 
   constructor(private task: TaskService, private users: ManualLoginService) {}
 
   userId!: number;
+  addedMembers!: number[];
+  taskId!: number;
 
   editTaskForm = new FormGroup({
     name: new FormControl('', [
@@ -39,15 +56,9 @@ export class TaskItemComponent {
 
   showOptions(index: number, status: number) {
     const threeDots = document.getElementById('threeDot-' + index);
-    const task = document.getElementById('task-' + index);
 
     if (threeDots) {
       threeDots.style.display = 'inline';
-      if (status === 0) {
-        task?.classList.add('actionsPending');
-      } else {
-        task?.classList.add('actionsDone');
-      }
     }
   }
 
@@ -57,11 +68,6 @@ export class TaskItemComponent {
 
     if (threeDots) {
       threeDots.style.display = 'none';
-      if (status === 0) {
-        task?.classList.remove('actionsPending');
-      } else {
-        task?.classList.remove('actionsDone');
-      }
     }
   }
 
@@ -106,12 +112,14 @@ export class TaskItemComponent {
         id: id,
         status: 0,
         userId: this.userId,
+        activityId: this.activityId,
       };
 
       this.task.editTask(updatedFormValue).subscribe((response: any) => {
         this.editTaskForm.reset();
 
         this.getTask.emit(this.activityId);
+        this.getActivities.emit();
       });
     }
 
@@ -127,10 +135,22 @@ export class TaskItemComponent {
   markAsDone(id: number, status: number) {
     const updatedFormValue = {
       status: status,
+      activityId: this.activityId,
       id: id,
+      userId: this.userId,
     };
+
     this.task.markAsDone(updatedFormValue).subscribe((response: any) => {
       this.getTask.emit(this.activityId);
+      this.getActivities.emit();
+    });
+  }
+
+  async manageVisibility(taskId: number) {
+    this.task.addedMembers(taskId).subscribe((response: any) => {
+      console.log(response);
+      this.addedMembers = response.visibleTo;
+      this.taskId = response.id;
     });
   }
 }

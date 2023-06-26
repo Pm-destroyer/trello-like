@@ -30,4 +30,12 @@ export class TaskService {
   markAsDone(status: any) {
     return this.http.post(this.rootURL + '/markAsDone', status);
   }
+
+  manageVisibility(data: any) {
+    return this.http.post(this.rootURL + '/manageVisibility', data);
+  }
+
+  addedMembers(taskId: number) {
+    return this.http.post(this.rootURL + '/addedMembers', { id: taskId });
+  }
 }

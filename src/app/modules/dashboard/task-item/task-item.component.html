@@ -1,4 +1,4 @@
-<h5 class="fw-bold pb-2" style="font-size: 0.6rem">
+<h5 class="fw-bold pb-2" style="font-size: 0.6rem; letter-spacing: 2px">
   <img src="../../../../assets/pendingTasks.svg" alt="" /> PENDING TASKS
 </h5>
 
@@ -55,9 +55,9 @@
   </div>
 </div>
 
-<hr class="my-4" />
+<hr class="my-4" style="color: #a9a4a4" />
 
-<h5 class="fw-bold pb-2" style="font-size: 0.6rem">
+<h5 class="fw-bold pb-2" style="font-size: 0.6rem; letter-spacing: 2px">
   <img src="../../../../assets/markAsDone.svg" alt="" /> MARKED AS DONE
 </h5>
 
@@ -91,8 +91,19 @@
         >
           <a (click)="onEdit(task.id, task.name)">Edit</a>
           <a (click)="markAsDone(task.id, 0)">Mark as pending</a>
-          <a>Manage visibility</a>
+          <a
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#manageVisibility"
+            (click)="manageVisibility(task.id)"
+            >Manage visibility</a
+          >
         </div>
+
+        <app-manage-visibility
+          [taskId]="taskId"
+          [addedMembers]="addedMembers"
+        ></app-manage-visibility>
       </div>
     </div>
 
