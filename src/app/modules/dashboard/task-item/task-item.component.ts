@@ -4,10 +4,6 @@ import {
   Input,
   Output,
   ViewContainerRef,
-  ComponentFactoryResolver,
-  ViewChild,
-  ElementRef,
-  ComponentRef,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -26,6 +22,7 @@ export class TaskItemComponent {
 
   @Input() activityId!: number;
   @Input() taskDetails!: any;
+  @Input() boardAdmin!: any;
   @Output() getTask: EventEmitter<any> = new EventEmitter();
   @Output() getActivities: EventEmitter<any> = new EventEmitter();
 
@@ -34,6 +31,8 @@ export class TaskItemComponent {
   userId!: number;
   addedMembers!: number[];
   taskId!: number;
+
+  visibilityList: any[] = [];
 
   editTaskForm = new FormGroup({
     name: new FormControl('', [
@@ -46,6 +45,10 @@ export class TaskItemComponent {
   ngOnInit() {
     this.getTask.emit(this.activityId);
     this.getUserId();
+  }
+
+  getTaskDetails() {
+    this.getTask.emit(this.activityId);
   }
 
   getUserId() {
@@ -64,7 +67,6 @@ export class TaskItemComponent {
 
   hideOptions(index: number, status: number) {
     const threeDots = document.getElementById('threeDot-' + index);
-    const task = document.getElementById('task-' + index);
 
     if (threeDots) {
       threeDots.style.display = 'none';
@@ -145,6 +147,16 @@ export class TaskItemComponent {
       this.getActivities.emit();
     });
   }
+
+  asciiToHex = (str: string) => {
+    const arr1 = [];
+    for (let n = 0, l = str.length; n < l; n++) {
+      const hex = Number(str.charCodeAt(n)).toString(16);
+      arr1.push(hex);
+    }
+
+    return arr1.join('');
+  };
 
   async manageVisibility(taskId: number) {
     this.task.addedMembers(taskId).subscribe((response: any) => {

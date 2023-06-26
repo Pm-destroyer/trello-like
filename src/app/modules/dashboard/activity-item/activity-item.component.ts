@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -13,6 +13,8 @@ import { TaskService } from '../../../services/task.service';
   styleUrls: ['./activity-item.component.scss'],
 })
 export class ActivityItemComponent {
+  @Input() boardAdmin!: any;
+
   constructor(
     private activity: ActivityService,
     private users: ManualLoginService,
@@ -25,6 +27,7 @@ export class ActivityItemComponent {
   workspaceId!: string;
   boardId!: string;
   userId!: number;
+  visibilityList: any = [];
 
   activityHeadingForm = new FormGroup({
     name: new FormControl('', [

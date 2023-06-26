@@ -78,12 +78,11 @@
           (getActivities)="getActivities(boardId, userId, workspaceId)"
           [taskDetails]="taskDetails[activity.id]"
           [activityId]="activity.id"
+          [boardAdmin]="boardAdmin"
         ></app-task-item>
 
         <app-manage-visibility
           (getTask)="getTask(activity.id)"
-          [activityId]="activity.id"
-          [taskDetails]="taskDetails[activity.id]"
         ></app-manage-visibility>
 
         <hr class="text-muted my-4" />

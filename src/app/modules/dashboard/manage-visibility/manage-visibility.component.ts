@@ -13,8 +13,6 @@ import {
   Validators,
 } from '@angular/forms';
 
-import * as $ from 'jquery';
-
 import { TaskService } from '../../../services/task.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -26,11 +24,10 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class ManageVisibilityComponent {
   @ViewChild('modalclose') modalclose: any;
-  @Output() getTask: EventEmitter<any> = new EventEmitter();
+  @Output() getTaskDetails: EventEmitter<any> = new EventEmitter();
   @Input() taskId!: number;
   @Input() activityId!: number;
   @Input() addedMembers!: any;
-  @Input() taskDetails!: any[];
 
   constructor(
     private task: TaskService,
@@ -103,34 +100,28 @@ export class ManageVisibilityComponent {
   }
 
   onSubmit() {
-    if (!this.manageVisibilityForm.invalid) {
-      this.display = false;
+    this.display = false;
 
-      const updatedFormValue = {
-        ...this.manageVisibilityForm.value,
-        id: this.id,
-        userId: this.userId,
-      };
+    const updatedFormValue = {
+      ...this.manageVisibilityForm.value,
+      id: this.id,
+      userId: this.userId,
+    };
 
-      this.task
-        .manageVisibility(updatedFormValue)
-        .subscribe((response: any) => {
-          this.manageVisibilityForm.reset();
+    this.task.manageVisibility(updatedFormValue).subscribe((response: any) => {
+      this.manageVisibilityForm.reset();
 
-          this.getTask.emit(this.activityId);
+      this.getTaskDetails.emit();
 
-          this.fetchUserList();
+      this.fetchUserList();
 
-          this.modalclose.nativeElement.click();
-        });
-    } else {
-      this.display = true;
-    }
+      this.modalclose.nativeElement.click();
+    });
   }
 
   onCancel() {
     this.manageVisibilityForm.reset();
-    this.getTask.emit(this.activityId);
+    this.getTaskDetails.emit();
 
     this.fetchUserList();
 
