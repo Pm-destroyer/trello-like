@@ -13,6 +13,7 @@ import { ActivityService } from '../../../services/activity.service';
 export class AddActivityComponent {
   @Output() getactivity: EventEmitter<any> = new EventEmitter();
   @Input() boardId!: string;
+  @Input() userId!: number;
 
   constructor(
     private activity: ActivityService,
@@ -20,7 +21,6 @@ export class AddActivityComponent {
   ) {}
 
   display: boolean = false;
-  userId!: number;
 
   addActivityForm = new FormGroup({
     name: new FormControl('', [
@@ -29,17 +29,10 @@ export class AddActivityComponent {
     ]),
   });
 
-  ngOnInit() {
-    this.getUserId();
-  }
-
-  getUserId() {
-    this.users.getUsers().subscribe((response: any) => {
-      this.userId = response.id;
-    });
-  }
-
   onSubmit() {
+    const div = document.getElementById('addActivity')!;
+    const form = document.getElementById('addActivityForm')!;
+
     if (!this.addActivityForm.invalid) {
       this.display = false;
 
@@ -54,12 +47,8 @@ export class AddActivityComponent {
 
         this.getactivity.emit(this.userId);
 
-        Swal.fire({
-          title: `Your activity has been added succesfully`,
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        div.style.display = 'block';
+        form.style.display = 'none';
       });
     } else {
       this.display = true;

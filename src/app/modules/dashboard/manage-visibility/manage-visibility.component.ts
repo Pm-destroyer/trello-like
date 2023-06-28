@@ -26,8 +26,10 @@ export class ManageVisibilityComponent {
   @ViewChild('modalclose') modalclose: any;
   @Output() getTaskDetails: EventEmitter<any> = new EventEmitter();
   @Input() taskId!: number;
+  @Input() userId!: number;
   @Input() activityId!: number;
   @Input() addedMembers!: any;
+  @Input() membersDrop!: any[];
 
   constructor(
     private task: TaskService,
@@ -35,11 +37,9 @@ export class ManageVisibilityComponent {
     private route: ActivatedRoute
   ) {}
 
-  userId!: number;
   id!: number;
   display: boolean = false;
   workspaceId!: string;
-  membersDrop: any[] = [];
 
   manageVisibilityForm = new FormGroup({
     visibleTo: new FormControl(
@@ -59,17 +59,16 @@ export class ManageVisibilityComponent {
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.workspaceId = params.get('workspaceId')!;
-
-      this.getUserId();
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['workspaceId'] && !changes['workspaceId'].firstChange) {
-      this.fetchUserList();
+    if (changes['taskId'] && !changes['taskId'].firstChange) {
+      const updatedTaskId = changes['taskId'].currentValue;
+      this.id = updatedTaskId;
     }
 
-    this.id = this.taskId;
+    console.log(this.id);
 
     this.manageVisibilityForm.patchValue({
       visibleTo:
@@ -81,25 +80,9 @@ export class ManageVisibilityComponent {
     });
   }
 
-  getUserId() {
-    this.users.getUsers().subscribe((response: any) => {
-      this.userId = response.id;
-
-      this.fetchUserList();
-    });
-  }
-
-  fetchUserList() {
-    if (this.userId && this.workspaceId) {
-      this.users
-        .userDropByWorkspace(this.userId, this.workspaceId)
-        .subscribe((response: any) => {
-          this.membersDrop = response;
-        });
-    }
-  }
-
   onSubmit() {
+    console.log(this.id);
+
     this.display = false;
 
     const updatedFormValue = {
@@ -113,8 +96,6 @@ export class ManageVisibilityComponent {
 
       this.getTaskDetails.emit();
 
-      this.fetchUserList();
-
       this.modalclose.nativeElement.click();
     });
   }
@@ -122,8 +103,6 @@ export class ManageVisibilityComponent {
   onCancel() {
     this.manageVisibilityForm.reset();
     this.getTaskDetails.emit();
-
-    this.fetchUserList();
 
     this.manageVisibilityForm.patchValue({
       visibleTo:

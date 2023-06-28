@@ -65,6 +65,17 @@
       </div>
     </div>
 
+    <ng-container *ngIf="userId !== undefined">
+      <app-manage-visibility
+        [taskId]="taskId"
+        [membersDrop]="membersDrop"
+        [userId]="userId"
+        [activityId]="activityID"
+        [addedMembers]="addedMembers"
+        (getTaskDetails)="getTaskDetails()"
+      ></app-manage-visibility>
+    </ng-container>
+
     <form
       *ngIf="task.status === 0"
       [id]="'editTaskForm-' + task.id"
@@ -136,7 +147,7 @@
 
         <app-manage-visibility
           [taskId]="taskId"
-          [activityId]="activityId"
+          [activityId]="activityID"
           [addedMembers]="addedMembers"
           (getTaskDetails)="getTaskDetails()"
         ></app-manage-visibility>

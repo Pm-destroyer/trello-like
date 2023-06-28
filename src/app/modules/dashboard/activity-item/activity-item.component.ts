@@ -14,6 +14,7 @@ import { TaskService } from '../../../services/task.service';
 })
 export class ActivityItemComponent {
   @Input() boardAdmin!: any;
+  @Input() userId!: number;
 
   constructor(
     private activity: ActivityService,
@@ -26,7 +27,6 @@ export class ActivityItemComponent {
   taskDetails: { [activityId: number]: any } = {};
   workspaceId!: string;
   boardId!: string;
-  userId!: number;
   visibilityList: any = [];
 
   activityHeadingForm = new FormGroup({
@@ -41,10 +41,7 @@ export class ActivityItemComponent {
       this.workspaceId = params.get('workspaceId')!;
       this.boardId = params.get('boardId')!;
 
-      this.users.getUsers().subscribe((response: any) => {
-        this.userId = response.id;
-        this.getActivities(this.boardId, this.userId, this.workspaceId);
-      });
+      this.getActivities(this.boardId, this.userId, this.workspaceId);
     });
   }
 

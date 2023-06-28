@@ -3,14 +3,14 @@ import {
   EventEmitter,
   Input,
   Output,
+  SimpleChanges,
   ViewContainerRef,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { TaskService } from '../../../services/task.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
-
-declare var $: any;
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-task-item',
@@ -21,18 +21,25 @@ export class TaskItemComponent {
   myModal!: ViewContainerRef;
 
   @Input() activityId!: number;
+  @Input() userId!: number;
   @Input() taskDetails!: any;
   @Input() boardAdmin!: any;
   @Output() getTask: EventEmitter<any> = new EventEmitter();
   @Output() getActivities: EventEmitter<any> = new EventEmitter();
 
-  constructor(private task: TaskService, private users: ManualLoginService) {}
+  constructor(
+    private task: TaskService,
+    private users: ManualLoginService,
+    private route: ActivatedRoute
+  ) {}
 
-  userId!: number;
   addedMembers!: number[];
   taskId!: number;
+  activityID!: number;
 
   visibilityList: any[] = [];
+  membersDrop: any[] = [];
+  workspaceId!: string;
 
   editTaskForm = new FormGroup({
     name: new FormControl('', [
@@ -43,18 +50,19 @@ export class TaskItemComponent {
   });
 
   ngOnInit() {
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.workspaceId = params.get('workspaceId')!;
+    });
+
     this.getTask.emit(this.activityId);
-    this.getUserId();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.activityID = this.activityId;
   }
 
   getTaskDetails() {
     this.getTask.emit(this.activityId);
-  }
-
-  getUserId() {
-    this.users.getUsers().subscribe((response: any) => {
-      this.userId = response.id;
-    });
   }
 
   showOptions(index: number, status: number) {
@@ -160,9 +168,16 @@ export class TaskItemComponent {
 
   async manageVisibility(taskId: number) {
     this.task.addedMembers(taskId).subscribe((response: any) => {
-      console.log(response);
       this.addedMembers = response.visibleTo;
       this.taskId = response.id;
     });
+
+    if (this.userId && this.workspaceId) {
+      this.users
+        .userDropByWorkspace(this.userId, this.workspaceId)
+        .subscribe((response: any) => {
+          this.membersDrop = response;
+        });
+    }
   }
 }

@@ -11,6 +11,7 @@ import { TaskService } from '../../../services/task.service';
 export class AddTaskComponent {
   @Input() activityIndex!: number;
   @Input() activityId!: number;
+  @Input() userId!: number;
 
   @Output() getTask: EventEmitter<any> = new EventEmitter();
 
@@ -19,7 +20,6 @@ export class AddTaskComponent {
   activityDetails: any;
   workspaceId!: string;
   boardId!: string;
-  userId!: number;
 
   addTaskForm = new FormGroup({
     name: new FormControl('', [

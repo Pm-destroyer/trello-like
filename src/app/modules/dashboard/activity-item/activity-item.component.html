@@ -75,20 +75,18 @@
 
         <app-task-item
           (getTask)="getTask(activity.id)"
+          [userId]="userId"
           (getActivities)="getActivities(boardId, userId, workspaceId)"
           [taskDetails]="taskDetails[activity.id]"
           [activityId]="activity.id"
           [boardAdmin]="boardAdmin"
         ></app-task-item>
 
-        <app-manage-visibility
-          (getTask)="getTask(activity.id)"
-        ></app-manage-visibility>
-
         <hr class="text-muted my-4" />
 
         <div class="mb-2">
           <app-add-task
+            [userId]="userId"
             [activityIndex]="index"
             [activityId]="activity.id"
             (getTask)="getTask(activity.id)"
@@ -101,6 +99,7 @@
   <div class="card scroll-item me-4" style="width: 20rem">
     <app-add-activity
       [boardId]="boardId"
+      [userId]="userId"
       (getactivity)="getActivities(boardId, userId, workspaceId)"
     ></app-add-activity>
   </div>
