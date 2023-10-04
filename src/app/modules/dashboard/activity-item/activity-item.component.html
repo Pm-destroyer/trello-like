@@ -76,7 +76,7 @@
         <app-task-item
           (getTask)="getTask(activity.id)"
           [userId]="userId"
-          (getActivities)="getActivities(boardId, userId, workspaceId)"
+          (getActivities)="getActivities(boardId, userId, projectId)"
           [taskDetails]="taskDetails[activity.id]"
           [activityId]="activity.id"
           [boardAdmin]="boardAdmin"
@@ -100,7 +100,7 @@
     <app-add-activity
       [boardId]="boardId"
       [userId]="userId"
-      (getactivity)="getActivities(boardId, userId, workspaceId)"
+      (getactivity)="getActivities(boardId, userId, projectId)"
     ></app-add-activity>
   </div>
 </div>

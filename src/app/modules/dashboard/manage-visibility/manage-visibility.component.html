@@ -16,7 +16,7 @@
       >
         <div>
           <h4 class="modal-title d-block" id="manageVisibilityLabel">
-            Add new member
+            Add new member {{ taskId }}
           </h4>
           <p class="d-block m-0">
             Members can see all the boards of this workspaces.
@@ -30,18 +30,19 @@
           (click)="onCancel()"
         ></button>
       </div>
-      <form [formGroup]="manageVisibilityForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="manageVisibilityForm" (ngSubmit)="onClickSubmit()">
         <div class="container">
           <div class="mb-3">
             <p for="member" class="form-label fw-bold mb-2">
               Invite to Workspace
             </p>
-            <!-- <input
+            <input
               type="text"
               class="form-control"
               style="display: none"
               formControlName="id"
-            /> -->
+              [id]="taskId"
+            />
             <ng-select
               [items]="membersDrop"
               bindLabel="username"
@@ -70,7 +71,11 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-success" (click)="onSubmit()">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="onClickSubmit()"
+          >
             Add
           </button>
         </div>

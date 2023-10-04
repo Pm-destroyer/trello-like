@@ -18,14 +18,13 @@ export class ActivityItemComponent {
 
   constructor(
     private activity: ActivityService,
-    private users: ManualLoginService,
     private task: TaskService,
     private route: ActivatedRoute
   ) {}
 
   activityDetails: any;
   taskDetails: { [activityId: number]: any } = {};
-  workspaceId!: string;
+  projectId!: string;
   boardId!: string;
   visibilityList: any = [];
 
@@ -38,16 +37,16 @@ export class ActivityItemComponent {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.workspaceId = params.get('workspaceId')!;
+      this.projectId = params.get('projectId')!;
       this.boardId = params.get('boardId')!;
 
-      this.getActivities(this.boardId, this.userId, this.workspaceId);
+      this.getActivities(this.boardId, this.userId, this.projectId);
     });
   }
 
-  getActivities(id: string, userId: number, workspaceId: string) {
+  getActivities(id: string, userId: number, projectId: string) {
     this.activity
-      .viewActivity(id, userId, workspaceId)
+      .viewActivity(id, userId, projectId)
       .subscribe((response: any) => {
         this.activityDetails = response;
       });
@@ -72,7 +71,7 @@ export class ActivityItemComponent {
         }).then((result) => {
           if (result.isConfirmed) {
             this.activity.deleteActivity(id).subscribe((response: any) => {
-              this.getActivities(this.boardId, this.userId, this.workspaceId);
+              this.getActivities(this.boardId, this.userId, this.projectId);
               if (response.status) {
                 Swal.fire({
                   title: 'Your record has been deleted.',
@@ -123,7 +122,7 @@ export class ActivityItemComponent {
       this.activity
         .editActivity(updatedFormValue)
         .subscribe((response: any) => {
-          this.getActivities(this.boardId, this.userId, this.workspaceId);
+          this.getActivities(this.boardId, this.userId, this.projectId);
 
           heading!.style.display = 'block';
           form!.style.display = 'none';

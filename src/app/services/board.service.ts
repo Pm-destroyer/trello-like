@@ -13,17 +13,17 @@ export class BoardService {
     return this.http.post(this.rootURL + '/create', board);
   }
 
-  viewBoard(userId: number, workspaceId: string) {
+  viewBoard(userId: number, projectId: string) {
     return this.http.post(this.rootURL + '/viewBoard', {
       userId: userId,
-      workspaceId: workspaceId,
+      projectId: projectId,
     });
   }
 
-  viewById(id: string, workspaceId: string) {
+  viewById(id: string, projectId: string) {
     return this.http.post(this.rootURL + '/viewById', {
       id: id,
-      workspaceId: workspaceId,
+      projectId: projectId,
     });
   }
 

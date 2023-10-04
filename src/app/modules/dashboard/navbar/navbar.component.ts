@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { WorkspaceService } from '../../../services/workspace.service';
+import { ProjectService } from '../../../services/project.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
 
 @Component({
@@ -10,32 +10,32 @@ import { ManualLoginService } from '../../../services/manual-login.service';
 })
 export class NavbarComponent {
   title: string = 'Trello-like';
-  userId!: number;
+  project_admin!: number;
   userName!: string;
-  workspaces: any[] = [];
+  projects: any[] = [];
 
   constructor(
-    private workspace: WorkspaceService,
+    private project: ProjectService,
     private users: ManualLoginService
   ) {}
 
   ngOnInit() {
-    this.getUserId();
+    this.getproject_admin();
   }
 
-  getUserId() {
+  getproject_admin() {
     this.users.getUsers().subscribe((response: any) => {
-      this.userId = response.id;
+      this.project_admin = response.id;
       this.userName = response.username;
 
-      this.getWorkspace(response.id);
+      this.getProject(response.id);
     });
   }
 
-  getWorkspace(userId: any) {
-    this.workspaces = [];
-    this.workspace.viewWorkspace(userId).subscribe((response: any) => {
-      this.workspaces = this.workspaces.concat(response);
+  getProject(project_admin: any) {
+    this.projects = [];
+    this.project.viewProject(project_admin).subscribe((response: any) => {
+      this.projects = this.projects.concat(response);
     });
   }
 

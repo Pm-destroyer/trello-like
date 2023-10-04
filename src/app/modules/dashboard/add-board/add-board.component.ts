@@ -19,7 +19,7 @@ import { ManualLoginService } from '../../../services/manual-login.service';
 export class AddBoardComponent {
   @ViewChild('modalclose') modalclose: any;
   @Output() getboard: EventEmitter<any> = new EventEmitter();
-  @Input() workspaceId!: string;
+  @Input() projectId!: string;
 
   constructor(private board: BoardService, private users: ManualLoginService) {}
 
@@ -50,7 +50,7 @@ export class AddBoardComponent {
 
       const updatedFormValue = {
         ...this.addBoardForm.value,
-        workspaceId: this.workspaceId,
+        projectId: this.projectId,
         userId: this.userId,
       };
 

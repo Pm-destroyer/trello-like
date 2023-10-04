@@ -2,28 +2,28 @@ import { Component, Output, ViewChild, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { WorkspaceService } from '../../../services/workspace.service';
+import { ProjectService } from '../../../services/project.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
 
 @Component({
-  selector: 'app-add-workspace',
-  templateUrl: './add-workspace.component.html',
-  styleUrls: ['./add-workspace.component.scss'],
+  selector: 'app-add-project',
+  templateUrl: './add-project.component.html',
+  styleUrls: ['./add-project.component.scss'],
 })
-export class AddWorkspaceComponent {
+export class AddProjectComponent {
   @ViewChild('modalclose') modalclose: any;
-  @Output() getWorkspace: EventEmitter<any> = new EventEmitter();
+  @Output() getProject: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private workspace: WorkspaceService,
+    private project: ProjectService,
     private users: ManualLoginService
   ) {}
 
   display: boolean = false;
   userId!: number;
-  workspaceTypes: any[] = [];
+  projectTypes: any[] = [];
 
-  addWorkspaceForm = new FormGroup({
+  addProjectForm = new FormGroup({
     name: new FormControl('', [
       Validators.required,
       Validators.pattern(/^[a-z A-Z0-9\.,]{3,50}$/),
@@ -33,8 +33,8 @@ export class AddWorkspaceComponent {
   });
 
   ngOnInit() {
-    this.workspace.workspaceTypeDropdown().subscribe((response: any) => {
-      this.workspaceTypes = this.workspaceTypes.concat(response);
+    this.project.projectTypeDropdown().subscribe((response: any) => {
+      this.projectTypes = this.projectTypes.concat(response);
     });
 
     this.getUserId();
@@ -47,25 +47,25 @@ export class AddWorkspaceComponent {
   }
 
   onSubmit() {
-    if (!this.addWorkspaceForm.invalid) {
+    if (!this.addProjectForm.invalid) {
       this.display = false;
 
       const updatedFormValue = {
-        ...this.addWorkspaceForm.value,
+        ...this.addProjectForm.value,
         userId: this.userId,
       };
 
-      this.workspace
-        .addWorkspace(updatedFormValue)
+      this.project
+        .addProject(updatedFormValue)
         .subscribe((response: any) => {
-          this.addWorkspaceForm.reset();
+          this.addProjectForm.reset();
 
-          this.getWorkspace.emit(this.userId);
+          this.getProject.emit(this.userId);
 
           this.modalclose.nativeElement.click();
 
           Swal.fire({
-            title: `Your workspace has been added succesfully`,
+            title: `Your project has been added succesfully`,
             icon: 'success',
             showConfirmButton: false,
             timer: 1500,
@@ -77,8 +77,8 @@ export class AddWorkspaceComponent {
   }
 
   onCancel() {
-    this.addWorkspaceForm.reset();
-    this.addWorkspaceForm.patchValue({
+    this.addProjectForm.reset();
+    this.addProjectForm.patchValue({
       name: '',
       type: 'select',
       description: '',

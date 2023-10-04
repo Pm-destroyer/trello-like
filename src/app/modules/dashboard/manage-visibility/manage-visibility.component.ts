@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
   SimpleChanges,
   ViewChild,
@@ -22,14 +23,17 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   templateUrl: './manage-visibility.component.html',
   styleUrls: ['./manage-visibility.component.scss'],
 })
-export class ManageVisibilityComponent {
+export class ManageVisibilityComponent implements OnChanges {
   @ViewChild('modalclose') modalclose: any;
   @Output() getTaskDetails: EventEmitter<any> = new EventEmitter();
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter();
   @Input() taskId!: number;
   @Input() userId!: number;
   @Input() activityId!: number;
   @Input() addedMembers!: any;
   @Input() membersDrop!: any[];
+
+  task_id!: number;
 
   constructor(
     private task: TaskService,
@@ -39,7 +43,7 @@ export class ManageVisibilityComponent {
 
   id!: number;
   display: boolean = false;
-  workspaceId!: string;
+  projectId!: string;
 
   manageVisibilityForm = new FormGroup({
     visibleTo: new FormControl(
@@ -54,53 +58,71 @@ export class ManageVisibilityComponent {
         },
       ]
     ),
+    id: new FormControl(0),
   });
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.workspaceId = params.get('workspaceId')!;
+      this.projectId = params.get('projectId')!;
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['taskId'] && !changes['taskId'].firstChange) {
-      const updatedTaskId = changes['taskId'].currentValue;
-      this.id = updatedTaskId;
-    }
+    const taskIdChange = changes['taskId'];
 
-    console.log(this.id);
+    console.log(this.taskId);
 
-    this.manageVisibilityForm.patchValue({
-      visibleTo:
+    this.task_id = this.taskId;
+
+    if (taskIdChange && !taskIdChange.firstChange) {
+      this.taskId = taskIdChange.currentValue;
+
+      // const { addedMembers } = this;
+      const visibleTo =
         this.addedMembers !== null &&
         this.addedMembers !== '' &&
         this.addedMembers !== undefined
           ? this.addedMembers.split(',').map((item: string) => +item)
-          : [],
-    });
+          : [];
+
+      this.manageVisibilityForm.patchValue({
+        visibleTo,
+        id: taskIdChange.currentValue,
+      });
+    }
   }
 
-  onSubmit() {
-    console.log(this.id);
+  // onSubmit() {
+  //   console.log(this.manageVisibilityForm.value);
 
-    this.display = false;
+  //   this.display = false;
 
-    const updatedFormValue = {
-      ...this.manageVisibilityForm.value,
-      id: this.id,
-      userId: this.userId,
-    };
+  //   const updatedFormValue = {
+  //     ...this.manageVisibilityForm.value,
+  //     id: this.id,
+  //     userId: this.userId,
+  //   };
 
-    this.task.manageVisibility(updatedFormValue).subscribe((response: any) => {
-      this.manageVisibilityForm.reset();
+  //   this.task.manageVisibility(updatedFormValue).subscribe((response: any) => {
+  //     this.manageVisibilityForm.reset();
 
-      this.getTaskDetails.emit();
+  //     this.getTaskDetails.emit();
 
-      this.modalclose.nativeElement.click();
-    });
+  //     this.modalclose.nativeElement.click();
+  //   });
+  // }
+
+  onClickSubmit() {
+    if (this.taskId !== undefined) {
+      console.log(this.taskId);
+      this.onSubmit.emit(this.manageVisibilityForm.value);
+    } else {
+      console.error('taskId is undefined');
+    }
   }
 
   onCancel() {
+    console.log(this.taskId);
     this.manageVisibilityForm.reset();
     this.getTaskDetails.emit();
 
@@ -111,6 +133,7 @@ export class ManageVisibilityComponent {
         this.addedMembers !== undefined
           ? this.addedMembers.split(',').map((item: string) => +item)
           : [],
+      id: this.taskId,
     });
   }
 }

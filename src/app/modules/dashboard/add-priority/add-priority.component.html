@@ -1,0 +1,79 @@
+<!-- Button trigger modal -->
+<!-- <button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#addPriority"
+>
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="addPriority"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="addPriorityLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div
+        class="modal-header mb-2"
+        style="background-color: #233241; color: #fff"
+      >
+        <div>
+          <h4 class="modal-title d-block" id="addWorkspaceLabel">
+            Add priority
+          </h4>
+          <p class="d-block m-0">Update this task's priority here.</p>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [formGroup]="addPriorityForm">
+        <div class="container">
+          <div class="mb-3">
+            <strong for="name" class="form-label">Priority</strong>
+            <select
+              id="name"
+              formControlName="name"
+              class="form-select"
+              aria-label="Default select example"
+            >
+              <option selected disabled>Choose...</option>
+              <!-- <option
+                *ngFor="let workspaceType of workspaceTypes"
+                [value]="workspaceType.id"
+              >
+                {{ workspaceType.type }}
+              </option> -->
+            </select>
+            <!-- <em
+              *ngIf="addWorkspaceForm.get('type')?.invalid && display"
+              style="color: red"
+              >Please choose workspace type</em
+            > -->
+          </div>
+        </div>
+        <div class="modal-footer" style="background-color: #233241">
+          <button
+            #modalclose
+            type="button"
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-success">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

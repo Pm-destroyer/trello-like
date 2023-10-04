@@ -18,7 +18,7 @@ export class AddTaskComponent {
   constructor(private task: TaskService) {}
 
   activityDetails: any;
-  workspaceId!: string;
+  projectId!: string;
   boardId!: string;
 
   addTaskForm = new FormGroup({

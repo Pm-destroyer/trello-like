@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { WorkspaceService } from '../../../services/workspace.service';
+import { ProjectService } from '../../../services/project.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
 
 @Component({
@@ -24,14 +24,14 @@ import { ManualLoginService } from '../../../services/manual-login.service';
 })
 export class AddMemberComponent {
   @ViewChild('modalclose') modalclose: any;
-  @Input() workspaceId!: string;
+  @Input() projectId!: string;
   @Input() addedMembers!: any;
   @Input() members!: any[];
   @Output() getWorkspaceDetails: EventEmitter<any> = new EventEmitter();
   @Output() fetchUserList: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private workspace: WorkspaceService,
+    private project: ProjectService,
     private users: ManualLoginService
   ) {}
 
@@ -58,7 +58,7 @@ export class AddMemberComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['workspaceId'] && !changes['workspaceId'].firstChange) {
+    if (changes['projectId'] && !changes['projectId'].firstChange) {
       this.fetchUserList.emit();
     }
   }
@@ -83,10 +83,10 @@ export class AddMemberComponent {
         ...this.addMemberForm.value,
         userId: this.userId,
         addedMembers: this.addedMembers,
-        workspaceId: this.workspaceId,
+        projectId: this.projectId,
       };
 
-      this.workspace.addMembers(updatedFormValue).subscribe((response: any) => {
+      this.project.addMembers(updatedFormValue).subscribe((response: any) => {
         this.addMemberForm.reset();
 
         this.getWorkspaceDetails.emit(this.userId);

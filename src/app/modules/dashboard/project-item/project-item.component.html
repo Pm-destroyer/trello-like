@@ -1,17 +1,17 @@
 <app-navbar></app-navbar>
 
 <div class="container-fluid card my-2 d-flex flex-row">
-  <div *ngIf="workspaceDetails" class="card-body">
+  <div *ngIf="projectDetails" class="card-body">
     <h4
       class="card-title"
-      [id]="'h-' + workspaceDetails.id"
-      (dblclick)="showHeadingEdit(workspaceDetails.id, workspaceDetails.name)"
+      [id]="'h-' + projectDetails.id"
+      (dblclick)="showHeadingEdit(projectDetails.id, projectDetails.name)"
     >
-      {{ workspaceDetails.name }}
+      {{ projectDetails.name }}
     </h4>
     <form
-      [formGroup]="WorkspaceHeadingForm"
-      [id]="'form-' + workspaceDetails.id"
+      [formGroup]="projectHeadingForm"
+      [id]="'form-' + projectDetails.id"
       style="display: none"
     >
       <div>
@@ -19,21 +19,21 @@
           type="text"
           class="form-control"
           formControlName="name"
-          [id]="'input-' + workspaceDetails.id"
-          (blur)="editHeading(workspaceDetails.id)"
+          [id]="'input-' + projectDetails.id"
+          (blur)="editHeading(projectDetails.id)"
         />
-        <em *ngIf="WorkspaceHeadingForm.get('name')?.invalid" style="color: red"
+        <em *ngIf="projectHeadingForm.get('name')?.invalid" style="color: red"
           >Please enter a valid name</em
         >
       </div>
     </form>
     <h6 class="card-subtitle mb-4 text-muted">
-      {{ workspaceDetails.workspace_type.type }}
+      {{ projectDetails.project_type.type }}
     </h6>
     <p class="card-text">
       {{
-        workspaceDetails.description !== ""
-          ? workspaceDetails.description
+        projectDetails.description !== ""
+          ? projectDetails.description
           : "No description"
       }}
     </p>
@@ -42,7 +42,7 @@
       class="card-link"
       data-bs-toggle="modal"
       data-bs-target="#addBoard"
-      *ngIf="workspaceDetails.userId === userId"
+      *ngIf="projectDetails.project_admin === project_admin"
       >Add new Board</a
     >
     <a
@@ -50,7 +50,7 @@
       class="card-link"
       data-bs-toggle="modal"
       data-bs-target="#addMember"
-      *ngIf="workspaceDetails.userId === userId"
+      *ngIf="projectDetails.project_admin === project_admin"
       >Add member</a
     >
   </div>
@@ -64,9 +64,7 @@
         class="card-text mb-2"
       >
         {{ index + 1 }}.
-        <a
-          routerLink="/workspace/{{ workspaceDetails.id }}/board/{{ board.id }}"
-        >
+        <a routerLink="/project/{{ projectDetails.id }}/board/{{ board.id }}">
           {{ board.name }}</a
         >
       </p>
@@ -77,7 +75,7 @@
     <p class="card-text mb-2">No boards have been added</p>
   </ng-template>
 
-  <div class="card-body">
+  <!-- <div class="card-body">
     <h4 class="card-title">Members</h4>
     <div *ngIf="members && memberLists.length > 0; else elseMember">
       <div>
@@ -87,22 +85,22 @@
         >
           {{ index + 1 }}. {{ member.username }}
           <i
-            *ngIf="workspaceDetails.userId === userId"
+            *ngIf="projectDetails.project_admin === project_admin"
             type="button"
             class="bi bi-x-square-fill text-danger"
             (click)="
               removeMember(
                 member.id,
                 member.username,
-                workspaceDetails.userId,
-                workspaceDetails.id
+                projectDetails.project_admin,
+                projectDetails.id
               )
             "
           ></i>
         </p>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <ng-template #elseMember>
     <p class="card-text mb-2">No members have been added</p>
@@ -117,14 +115,14 @@
 </div>
 
 <app-add-board
-  [workspaceId]="id"
-  (getboard)="getboard(userId, id)"
+  [projectId]="id"
+  (getboard)="getboard(project_admin, id)"
 ></app-add-board>
 
 <app-add-member
-  [workspaceId]="id"
+  [projectId]="id"
   [addedMembers]="members"
   [members]="membersDrop"
-  (getWorkspaceDetails)="getWorkspaceDetails(id)"
+  (getProjectDetails)="getProjectDetails(id)"
   (fetchUserList)="fetchUserList()"
 ></app-add-member>

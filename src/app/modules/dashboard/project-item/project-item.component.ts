@@ -3,21 +3,21 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { WorkspaceService } from '../../../services/workspace.service';
+import { ProjectService } from '../../../services/project.service';
 import { BoardService } from '../../../services/board.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
 
 @Component({
-  selector: 'app-workspace-item',
-  templateUrl: './workspace-item.component.html',
-  styleUrls: ['./workspace-item.component.scss'],
+  selector: 'app-project-item',
+  templateUrl: './project-item.component.html',
+  styleUrls: ['./project-item.component.scss'],
 })
-export class WorkspaceItemComponent {
-  @Output() getWorkspace: EventEmitter<any> = new EventEmitter();
+export class ProjectItemComponent {
+  @Output() getproject: EventEmitter<any> = new EventEmitter();
 
   id!: string;
-  workspaceDetails: any;
-  userId!: number;
+  projectDetails: any;
+  project_admin!: number;
   username!: string;
   boards: any[] = [];
   memberLists: any[] = [];
@@ -26,12 +26,12 @@ export class WorkspaceItemComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private workspace: WorkspaceService,
+    private project: ProjectService,
     private board: BoardService,
     private users: ManualLoginService
   ) {}
 
-  WorkspaceHeadingForm = new FormGroup({
+  projectHeadingForm = new FormGroup({
     name: new FormControl('', [
       Validators.required,
       Validators.pattern(/^[a-z A-Z0-9\.,]{3,50}$/),
@@ -40,45 +40,47 @@ export class WorkspaceItemComponent {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = params.get('workspaceId')!;
-      this.getWorkspaceDetails(this.id);
+      this.id = params.get('projectId')!;
+      this.getProjectDetails(this.id);
 
       this.users.getUsers().subscribe((response: any) => {
-        this.userId = response.id;
+        this.project_admin = response.id;
 
         this.getboard(response.id, this.id);
       });
     });
   }
 
-  getWorkspaceDetails(id: string) {
-    this.workspace.viewById(id).subscribe((response: any) => {
-      this.workspaceDetails = response;
+  getProjectDetails(id: string) {
+    this.project.viewById(id).subscribe((response: any) => {
+      this.projectDetails = response;
       this.memberLists = response.memberLists;
       this.members = response.members;
       this.username = response.user.username;
     });
   }
 
-  getboard(userId: any, workspaceId: string) {
+  getboard(project_admin: any, projectId: string) {
     this.boards = [];
-    this.board.viewBoard(userId, workspaceId).subscribe((response: any) => {
-      this.boards = this.boards.concat(response);
-    });
+    this.board
+      .viewBoard(project_admin, projectId)
+      .subscribe((response: any) => {
+        this.boards = this.boards.concat(response);
+      });
   }
 
   removeMember(
     member: number,
     memberName: string,
-    userId: any,
-    workspaceId: any
+    project_admin: any,
+    projectId: any
   ) {
     const updateMember = {
       members: this.members
         .split(',')
         .filter((item) => parseInt(item) !== member && item !== ''),
-      userId: userId,
-      workspaceId: workspaceId,
+      project_admin: project_admin,
+      projectId: projectId,
     };
 
     Swal.fire({
@@ -94,13 +96,13 @@ export class WorkspaceItemComponent {
       cancelButtonAriaLabel: 'Thumbs down',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.workspace.removeMember(updateMember).subscribe((response: any) => {
-          this.getWorkspaceDetails(this.id);
+        this.project.removeMember(updateMember).subscribe((response: any) => {
+          this.getProjectDetails(this.id);
 
           this.fetchUserList();
 
           Swal.fire({
-            title: `${memberName} has been removed from this workspace.`,
+            title: `${memberName} has been removed from this project.`,
             icon: 'success',
             showConfirmButton: false,
             timer: 1500,
@@ -111,9 +113,9 @@ export class WorkspaceItemComponent {
   }
 
   fetchUserList() {
-    if (this.userId && this.id) {
+    if (this.project_admin && this.id) {
       this.users
-        .getUserList(this.userId, this.id)
+        .getUserList(this.project_admin, this.id)
         .subscribe((response: any) => {
           this.membersDrop = response;
         });
@@ -121,7 +123,7 @@ export class WorkspaceItemComponent {
   }
 
   showHeadingEdit(id: number, value: string) {
-    if (this.userId === this.workspaceDetails.userId) {
+    if (this.project_admin === this.projectDetails.project_admin) {
       const heading = document.getElementById('h-' + id);
       const form = document.getElementById('form-' + id);
       const input = document.getElementById('input-' + id);
@@ -129,7 +131,7 @@ export class WorkspaceItemComponent {
       heading!.style.display = 'none';
       form!.style.display = 'inline';
 
-      this.WorkspaceHeadingForm.patchValue({
+      this.projectHeadingForm.patchValue({
         name: value,
       });
 
@@ -141,20 +143,18 @@ export class WorkspaceItemComponent {
     const heading = document.getElementById('h-' + id);
     const form = document.getElementById('form-' + id);
 
-    if (!this.WorkspaceHeadingForm.invalid) {
+    if (!this.projectHeadingForm.invalid) {
       const updatedFormValue = {
-        ...this.WorkspaceHeadingForm.value,
+        ...this.projectHeadingForm.value,
         id: id,
       };
 
-      this.workspace
-        .editWorkspace(updatedFormValue)
-        .subscribe((response: any) => {
-          this.getWorkspaceDetails(this.id);
+      this.project.editProject(updatedFormValue).subscribe((response: any) => {
+        this.getProjectDetails(this.id);
 
-          heading!.style.display = 'block';
-          form!.style.display = 'none';
-        });
+        heading!.style.display = 'block';
+        form!.style.display = 'none';
+      });
     }
   }
 }

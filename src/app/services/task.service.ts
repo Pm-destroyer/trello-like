@@ -38,4 +38,12 @@ export class TaskService {
   addedMembers(taskId: number) {
     return this.http.post(this.rootURL + '/addedMembers', { id: taskId });
   }
+
+  addTaskPriority(data: any) {
+    return this.http.post(this.rootURL + '/addTaskPriority', data);
+  }
+
+  priorityList() {
+    return this.http.get(this.rootURL + '/priorityList');
+  }
 }

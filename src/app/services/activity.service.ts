@@ -13,11 +13,11 @@ export class ActivityService {
     return this.http.post(this.rootURL + '/create', activity);
   }
 
-  viewActivity(boardId: string, userId: number, workspaceId: string) {
+  viewActivity(boardId: string, project_admin: number, projectId: string) {
     return this.http.post(this.rootURL + '/viewActivity', {
-      userId: userId,
+      project_admin: project_admin,
       boardId: boardId,
-      workspaceId: workspaceId,
+      projectId: projectId,
     });
   }
 

@@ -39,7 +39,8 @@ export class TaskItemComponent {
 
   visibilityList: any[] = [];
   membersDrop: any[] = [];
-  workspaceId!: string;
+  projectId!: string;
+  isManageVisibilityComplete: boolean = false;
 
   editTaskForm = new FormGroup({
     name: new FormControl('', [
@@ -51,7 +52,7 @@ export class TaskItemComponent {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.workspaceId = params.get('workspaceId')!;
+      this.projectId = params.get('projectId')!;
     });
 
     this.getTask.emit(this.activityId);
@@ -170,14 +171,28 @@ export class TaskItemComponent {
     this.task.addedMembers(taskId).subscribe((response: any) => {
       this.addedMembers = response.visibleTo;
       this.taskId = response.id;
+      console.log(this.taskId);
+      this.isManageVisibilityComplete = true;
     });
 
-    if (this.userId && this.workspaceId) {
+    if (this.userId && this.projectId) {
       this.users
-        .userDropByWorkspace(this.userId, this.workspaceId)
+        .userDropByWorkspace(this.userId, this.projectId)
         .subscribe((response: any) => {
           this.membersDrop = response;
         });
     }
+  }
+
+  onSubmit(form: any) {
+    console.log(this.taskId);
+
+    if (!this.isManageVisibilityComplete) {
+      // Wait for manageVisibility() to complete before calling onSubmit()
+      return;
+    }
+
+    console.log(form);
+    console.log(this.taskId);
   }
 }

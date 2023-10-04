@@ -26,8 +26,8 @@ export class AuthGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    const workspaceIdParam = route.paramMap.get('workspaceId');
-    const workspaceId = workspaceIdParam ? workspaceIdParam : '';
+    const projectIdParam = route.paramMap.get('projectId');
+    const projectId = projectIdParam ? projectIdParam : '';
     const userLoggedIn = localStorage.getItem('user') !== null;
 
     if (!userLoggedIn) {
@@ -35,11 +35,11 @@ export class AuthGuard {
       return of(false);
     }
 
-    if (workspaceId === '') {
+    if (projectId === '') {
       return of(true);
     }
 
-    return this.authService.isAuthorized(workspaceId).pipe(
+    return this.authService.isAuthorized(projectId).pipe(
       switchMap((authorized: boolean) => {
         this.previousUrl = state.url;
 

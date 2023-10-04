@@ -21,11 +21,11 @@ export class AuthWorkspaceGuard {
   canActivate: CanActivateFn = (
     next: ActivatedRouteSnapshot
   ): boolean | UrlTree => {
-    const workspaceId = +next.params['workspaceId'];
+    const projectId = +next.params['projectId'];
 
     if (localStorage.getItem('user')) {
       this.authService
-        .isAuthorized(workspaceId)
+        .isAuthorized(projectId)
         .subscribe((authorized: boolean) => {
           if (authorized) {
             return true;

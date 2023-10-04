@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 import { BoardService } from '../../../services/board.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
-import { WorkspaceService } from '../../../services/workspace.service';
+import { ProjectService } from '../../../services/project.service';
 import { ActivityService } from '../../../services/activity.service';
 
 @Component({
@@ -17,12 +17,12 @@ export class BoardItemComponent {
   constructor(
     private route: ActivatedRoute,
     private board: BoardService,
-    private workspace: WorkspaceService,
+    private project: ProjectService,
     private activity: ActivityService,
     private users: ManualLoginService
   ) {}
 
-  workspaceId!: string;
+  projectId!: string;
   boardId!: string;
   boardDetails: any;
   activityDetails: any;
@@ -52,34 +52,34 @@ export class BoardItemComponent {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.workspaceId = params.get('workspaceId')!;
+      this.projectId = params.get('projectId')!;
       this.boardId = params.get('boardId')!;
-      this.getboardDetails(this.boardId, this.workspaceId);
-      this.getWorkspaceMembers(this.workspaceId);
+      this.getboardDetails(this.boardId, this.projectId);
+      this.getWorkspaceMembers(this.projectId);
 
       this.users.getUsers().subscribe((response: any) => {
         this.userId = response.id;
-        this.getActivities(this.boardId, this.userId, this.workspaceId);
+        this.getActivities(this.boardId, this.userId, this.projectId);
       });
     });
   }
 
-  getboardDetails(id: string, workspaceId: string) {
-    this.board.viewById(id, workspaceId).subscribe((response: any) => {
+  getboardDetails(id: string, projectId: string) {
+    this.board.viewById(id, projectId).subscribe((response: any) => {
       this.boardDetails = response;
     });
   }
 
-  getActivities(id: string, userId: number, workspaceId: string) {
+  getActivities(id: string, userId: number, projectId: string) {
     this.activity
-      .viewActivity(id, userId, workspaceId)
+      .viewActivity(id, userId, projectId)
       .subscribe((response: any) => {
         this.activityDetails = response;
       });
   }
 
   getWorkspaceMembers(id: string) {
-    this.workspace.viewById(id).subscribe((response: any) => {
+    this.project.viewById(id).subscribe((response: any) => {
       this.members = response.memberLists;
       this.username = response.user.username;
     });
@@ -104,7 +104,7 @@ export class BoardItemComponent {
         }).then((result) => {
           if (result.isConfirmed) {
             this.activity.deleteActivity(id).subscribe((response: any) => {
-              this.getActivities(this.boardId, this.userId, this.workspaceId);
+              this.getActivities(this.boardId, this.userId, this.projectId);
               if (response.status) {
                 Swal.fire({
                   title: 'Your record has been deleted.',
@@ -131,7 +131,7 @@ export class BoardItemComponent {
     this.activity
       .markAsDone(id, active, this.userId)
       .subscribe((response: any) => {
-        this.getActivities(this.boardId, this.userId, this.workspaceId);
+        this.getActivities(this.boardId, this.userId, this.projectId);
       });
   }
 
@@ -208,7 +208,7 @@ export class BoardItemComponent {
       this.activity
         .editActivity(updatedFormValue)
         .subscribe((response: any) => {
-          this.getActivities(this.boardId, this.userId, this.workspaceId);
+          this.getActivities(this.boardId, this.userId, this.projectId);
         });
     }
   }
@@ -224,7 +224,7 @@ export class BoardItemComponent {
       this.activity
         .editActivity(updatedFormValue)
         .subscribe((response: any) => {
-          this.getActivities(this.boardId, this.userId, this.workspaceId);
+          this.getActivities(this.boardId, this.userId, this.projectId);
         });
     }
   }
@@ -259,7 +259,7 @@ export class BoardItemComponent {
       console.log(updatedFormValue);
 
       this.board.editBoard(updatedFormValue).subscribe((response: any) => {
-        this.getboardDetails(this.boardId, this.workspaceId);
+        this.getboardDetails(this.boardId, this.projectId);
 
         heading!.style.display = 'block';
         form!.style.display = 'none';

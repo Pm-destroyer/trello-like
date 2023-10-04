@@ -4,21 +4,23 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-export class WorkspaceService {
+export class ProjectService {
   constructor(private http: HttpClient) {}
 
-  rootURL = 'http://localhost:8000/workspace';
+  rootURL = 'http://localhost:8000/project';
 
-  addWorkspace(workspace: any) {
-    return this.http.post(this.rootURL + '/create', workspace);
+  addProject(project: any) {
+    return this.http.post(this.rootURL + '/create', project);
   }
 
-  viewWorkspace(userId: number) {
-    return this.http.post(this.rootURL + '/viewWorkspace', { userId: userId });
+  viewProject(project_admin: number) {
+    return this.http.post(this.rootURL + '/viewProject', {
+      project_admin: project_admin,
+    });
   }
 
-  workspaceTypeDropdown() {
-    return this.http.get(this.rootURL + '/workspaceTypeDrop');
+  projectTypeDropdown() {
+    return this.http.get(this.rootURL + '/projectTypeDrop');
   }
 
   viewById(id: string) {
@@ -33,7 +35,7 @@ export class WorkspaceService {
     return this.http.post(this.rootURL + '/removeMember', members);
   }
 
-  editWorkspace(data: any) {
-    return this.http.post(this.rootURL + '/editWorkspace', data);
+  editProject(data: any) {
+    return this.http.post(this.rootURL + '/editProject', data);
   }
 }

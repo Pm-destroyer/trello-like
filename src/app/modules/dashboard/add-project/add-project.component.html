@@ -1,11 +1,11 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="addWorkspace"
+  id="addProject"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
-  aria-labelledby="addWorkspaceLabel"
+  aria-labelledby="addProjectLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered">
@@ -15,8 +15,8 @@
         style="background-color: #233241; color: #fff"
       >
         <div>
-          <h4 class="modal-title d-block" id="addWorkspaceLabel">
-            Let's build a Workspace
+          <h4 class="modal-title d-block" id="addProjectLabel">
+            Let's build a project
           </h4>
           <p class="d-block m-0">
             Boost your productivity by making it easier for everyone to access
@@ -31,10 +31,10 @@
           (click)="onCancel()"
         ></button>
       </div>
-      <form [formGroup]="addWorkspaceForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="addProjectForm" (ngSubmit)="onSubmit()">
         <div class="container">
           <div class="mb-3">
-            <strong for="name" class="form-label">Workspace name</strong>
+            <strong for="name" class="form-label">Project name</strong>
             <input
               type="text"
               class="form-control"
@@ -43,13 +43,13 @@
               placeholder="Taco's Co."
             />
             <em
-              *ngIf="addWorkspaceForm.get('name')?.invalid && display"
+              *ngIf="addProjectForm.get('name')?.invalid && display"
               style="color: red"
               >Please enter a valid name</em
             >
           </div>
           <div class="mb-3">
-            <strong for="type" class="form-label">Workspace type</strong>
+            <strong for="type" class="form-label">Project type</strong>
             <select
               id="type"
               formControlName="type"
@@ -58,21 +58,21 @@
             >
               <option selected disabled value="select">Choose...</option>
               <option
-                *ngFor="let workspaceType of workspaceTypes"
-                [value]="workspaceType.id"
+                *ngFor="let projectType of projectTypes"
+                [value]="projectType.id"
               >
-                {{ workspaceType.type }}
+                {{ projectType.type }}
               </option>
             </select>
             <em
-              *ngIf="addWorkspaceForm.get('type')?.invalid && display"
+              *ngIf="addProjectForm.get('type')?.invalid && display"
               style="color: red"
-              >Please choose workspace type</em
+              >Please choose project type</em
             >
           </div>
           <div class="mb-3">
             <strong for="description" class="form-label">
-              Workspace description
+              Project description
             </strong>
             <span>(Optional)</span>
             <textarea

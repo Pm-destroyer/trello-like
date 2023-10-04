@@ -1,0 +1,12 @@
+.addtask {
+    background-color: #3C2BA3;
+    border-radius: 0.4rem;
+    border: none;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    &:hover {
+        background-color: darken(#3C2BA3, 10%);
+    }
+}

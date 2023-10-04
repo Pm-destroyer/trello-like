@@ -2,7 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuthGuard } from '../../guards/auth.guard';
-import { WorkspaceItemComponent } from './workspace-item/workspace-item.component';
+import { ProjectItemComponent } from './project-item/project-item.component';
 import { BoardItemComponent } from './board-item/board-item.component';
 
 const routes: Routes = [
@@ -12,15 +12,15 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'workspace',
+    path: 'project',
     children: [
       {
-        path: ':workspaceId',
-        component: WorkspaceItemComponent,
+        path: ':projectId',
+        component: ProjectItemComponent,
         canActivate: [AuthGuard],
       },
       {
-        path: ':workspaceId/board/:boardId',
+        path: ':projectId/board/:boardId',
         component: BoardItemComponent,
         canActivate: [AuthGuard],
       },

@@ -24,17 +24,17 @@ export class ManualLoginService {
     return this.http.post(this.rootURL + '/login', user);
   }
 
-  getUserList(id: number, workspaceId: string) {
+  getUserList(id: number, projectId: string) {
     return this.http.post(this.rootURL + '/view', {
       id: id,
-      workspaceId: workspaceId,
+      projectId: projectId,
     });
   }
 
-  userDropByWorkspace(id: number, workspaceId: string) {
+  userDropByWorkspace(id: number, projectId: string) {
     return this.http.post(this.rootURL + '/userDropByWorkspace', {
       id: id,
-      workspaceId: workspaceId,
+      projectId: projectId,
     });
   }
 }

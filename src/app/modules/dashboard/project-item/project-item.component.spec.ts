@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorkspaceItemComponent } from './workspace-item.component';
+import { WorkspaceItemComponent } from './project-item.component';
 
 describe('WorkspaceItemComponent', () => {
   let component: WorkspaceItemComponent;
@@ -8,7 +8,7 @@ describe('WorkspaceItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [WorkspaceItemComponent]
+      declarations: [WorkspaceItemComponent],
     });
     fixture = TestBed.createComponent(WorkspaceItemComponent);
     component = fixture.componentInstance;
