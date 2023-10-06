@@ -47,10 +47,12 @@
             >Manage visibility</a
           >
           <a
+            [id]="task.id"
             type="button"
             data-bs-toggle="modal"
             data-bs-target="#addPriority"
             *ngIf="userId === +boardAdmin"
+            (click)="openPriority($event)"
             >Add priority</a
           >
         </div>
@@ -210,5 +212,5 @@
 </ng-container>
 
 <ng-container>
-  <app-add-priority></app-add-priority>
+  <app-add-priority [taskId]="taskPriorityid"></app-add-priority>
 </ng-container>

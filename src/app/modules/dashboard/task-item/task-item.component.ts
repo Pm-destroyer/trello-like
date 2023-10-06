@@ -36,6 +36,7 @@ export class TaskItemComponent {
   addedMembers!: number[];
   taskId!: number;
   activityID!: number;
+  taskPriorityid!: number;
 
   visibilityList: any[] = [];
   membersDrop: any[] = [];
@@ -194,5 +195,11 @@ export class TaskItemComponent {
 
     console.log(form);
     console.log(this.taskId);
+  }
+
+  openPriority(event: Event) {
+    const elem = event.target as HTMLElement;
+
+    this.task.setTaskId(+elem.id);
   }
 }

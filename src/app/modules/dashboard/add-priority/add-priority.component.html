@@ -1,13 +1,3 @@
-<!-- Button trigger modal -->
-<!-- <button
-  type="button"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#addPriority"
->
-  Launch demo modal
-</button> -->
-
 <!-- Modal -->
 <div
   class="modal fade"
@@ -35,31 +25,32 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="onCancel()"
         ></button>
       </div>
       <form [formGroup]="addPriorityForm">
         <div class="container">
           <div class="mb-3">
-            <strong for="name" class="form-label">Priority</strong>
+            <strong for="priorityId" class="form-label">Priority</strong>
             <select
-              id="name"
-              formControlName="name"
+              id="priorityId"
+              formControlName="priorityId"
               class="form-select"
               aria-label="Default select example"
             >
-              <option selected disabled>Choose...</option>
-              <!-- <option
-                *ngFor="let workspaceType of workspaceTypes"
-                [value]="workspaceType.id"
+              <option selected disabled value="select">Choose...</option>
+              <option
+                *ngFor="let priority of priorityList"
+                [value]="priority.id"
               >
-                {{ workspaceType.type }}
-              </option> -->
+                {{ priority.name }}
+              </option>
             </select>
-            <!-- <em
-              *ngIf="addWorkspaceForm.get('type')?.invalid && display"
+            <em
+              *ngIf="addPriorityForm.get('priorityId')?.invalid && display"
               style="color: red"
-              >Please choose workspace type</em
-            > -->
+              >Please choose proirity</em
+            >
           </div>
         </div>
         <div class="modal-footer" style="background-color: #233241">
@@ -68,10 +59,13 @@
             type="button"
             class="btn btn-danger"
             data-bs-dismiss="modal"
+            (click)="onCancel()"
           >
             Close
           </button>
-          <button type="button" class="btn btn-success">Add</button>
+          <button type="button" class="btn btn-success" (click)="onSubmit()">
+            Add
+          </button>
         </div>
       </form>
     </div>

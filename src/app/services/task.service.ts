@@ -9,6 +9,8 @@ export class TaskService {
 
   rootURL = 'http://localhost:8000/task';
 
+  private taskId!: number;
+
   addTask(task: any) {
     return this.http.post(this.rootURL + '/create', task);
   }
@@ -45,5 +47,13 @@ export class TaskService {
 
   priorityList() {
     return this.http.get(this.rootURL + '/priorityList');
+  }
+
+  getTaskId() {
+    return this.taskId;
+  }
+
+  setTaskId(taskId: number) {
+    this.taskId = taskId;
   }
 }
