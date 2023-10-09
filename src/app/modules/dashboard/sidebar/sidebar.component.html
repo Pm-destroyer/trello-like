@@ -1,0 +1,81 @@
+<div class="area"></div>
+<nav [ngClass]="{ 'main-menu': true, 'menu-expanded': isOpen }">
+  <div
+    class="d-flex flex-row justify-content-between"
+    style="font-size: 1.5rem; padding-block: 0.65rem"
+  >
+    <a
+      [style.display]="isOpen ? 'block' : 'none'"
+      class="navbar-brand text-center"
+      style="color: #fff; width: 80%"
+      routerLink="/dashboard"
+      >{{ title }}</a
+    >
+    <i
+      (click)="toggleSidebar()"
+      class="bi bi-list mx-auto"
+      style="color: #fff"
+    ></i>
+  </div>
+  <ul>
+    <li
+      [ngClass]="{ 'active-menu-item': activeMenuItem === 'dashboard' }"
+      routerLink="/dashboard"
+    >
+      <a>
+        <i class="bi bi-house-door bi-2x"></i>
+        <span class="nav-text"> Project dashboard </span>
+      </a>
+    </li>
+    <li
+      [ngClass]="{ 'active-menu-item': activeMenuItem === 'tasks' }"
+      class="has-subnav"
+    >
+      <a>
+        <i class="bi bi-list-task bi-2x"></i>
+        <span class="nav-text"> Tasks </span>
+      </a>
+    </li>
+    <li
+      [ngClass]="{ 'active-menu-item': activeMenuItem === 'boards' }"
+      class="has-subnav"
+    >
+      <a>
+        <i class="bi bi-card-checklist bi-2x"></i>
+        <span class="nav-text"> Boards </span>
+      </a>
+    </li>
+    <li
+      [ngClass]="{ 'active-menu-item': activeMenuItem === 'members' }"
+      class="has-subnav"
+    >
+      <a>
+        <i class="bi bi-people bi-2x"></i>
+        <span class="nav-text"> Members </span>
+      </a>
+    </li>
+    <li [ngClass]="{ 'active-menu-item': activeMenuItem === 'statistics' }">
+      <a>
+        <i class="bi bi-bar-chart-line bi-2x"></i>
+        <span class="nav-text"> Statistics </span>
+      </a>
+    </li>
+    <li [ngClass]="{ 'active-menu-item': activeMenuItem === 'settings' }">
+      <a>
+        <i class="bi bi-gear bi-2x"></i>
+        <span class="nav-text"> Settings </span>
+      </a>
+    </li>
+  </ul>
+
+  <ul routerLink="/login" class="logout" (click)="logout()">
+    <li>
+      <a>
+        <i class="bi bi-power bi-2x"></i>
+        <span class="nav-text"> Logout </span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<router-outlet></router-outlet>

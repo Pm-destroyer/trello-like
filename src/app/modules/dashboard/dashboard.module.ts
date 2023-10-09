@@ -19,6 +19,7 @@ import { AddTaskComponent } from './add-task/add-task.component';
 import { ManageVisibilityComponent } from './manage-visibility/manage-visibility.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AddPriorityComponent } from './add-priority/add-priority.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AddPriorityComponent } from './add-priority/add-priority.component';
     ManageVisibilityComponent,
     UserProfileComponent,
     AddPriorityComponent,
+    SidebarComponent,
   ],
   imports: [
     CommonModule,
