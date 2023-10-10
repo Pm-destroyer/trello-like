@@ -1,6 +1,10 @@
 <app-navbar></app-navbar>
 
-<div class="mt-2 container-fluid card">
+<div
+  [style.width.px]="componentWidth"
+  [style.marginLeft.px]="matginLeft"
+  class="mt-2 container-fluid card component-width"
+>
   <div class="my-2 d-flex flex-row">
     <div *ngIf="boardDetails" class="card-body">
       <h4

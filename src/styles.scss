@@ -7,3 +7,10 @@ body {
     background-repeat: no-repeat; /* Optional: Prevent the image from repeating */
     font-family: Inter ;
   }
+
+.component-width {
+  width: calc(100vw - 60px);
+  margin-left: 60px;
+  -webkit-transition: all .1s linear;
+  transition: all .1s linear;
+}

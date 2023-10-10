@@ -13,7 +13,8 @@ export class NavbarComponent {
   project_admin!: number;
   userName!: string;
   projects: any[] = [];
-  sidebarWidth!: number;
+  componentWidth!: number;
+  matginLeft!: number;
 
   constructor(
     private project: ProjectService,
@@ -26,9 +27,8 @@ export class NavbarComponent {
     this.getproject_admin();
 
     this.sidebarService.sidebarWidth$.subscribe((width) => {
-      this.sidebarWidth = width;
-
-      console.log(this.sidebarWidth);
+      this.componentWidth = this.sidebarService.calcWidth(width);
+      this.matginLeft = width;
 
       this.cdr.detectChanges();
     });

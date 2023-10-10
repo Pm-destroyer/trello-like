@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -7,6 +7,7 @@ import { BoardService } from '../../../services/board.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
 import { ProjectService } from '../../../services/project.service';
 import { ActivityService } from '../../../services/activity.service';
+import { SidebarService } from 'src/app/services/sidebar.service';
 
 @Component({
   selector: 'app-board-item',
@@ -19,7 +20,9 @@ export class BoardItemComponent {
     private board: BoardService,
     private project: ProjectService,
     private activity: ActivityService,
-    private users: ManualLoginService
+    private users: ManualLoginService,
+    private sidebarService: SidebarService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   projectId!: string;
@@ -31,6 +34,8 @@ export class BoardItemComponent {
   boards: any[] = [];
   members: any[] = [];
   isActive: boolean = true;
+  componentWidth!: number;
+  matginLeft!: number;
 
   editHeadingForm = new FormGroup({
     name: new FormControl('', [
@@ -61,6 +66,13 @@ export class BoardItemComponent {
         this.userId = response.id;
         this.getActivities(this.boardId, this.userId, this.projectId);
       });
+    });
+
+    this.sidebarService.sidebarWidth$.subscribe((width) => {
+      this.componentWidth = this.sidebarService.calcWidth(width);
+      this.matginLeft = width;
+
+      this.cdr.detectChanges();
     });
   }
 

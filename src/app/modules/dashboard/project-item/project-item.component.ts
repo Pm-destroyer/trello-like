@@ -1,4 +1,9 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -6,6 +11,7 @@ import Swal from 'sweetalert2';
 import { ProjectService } from '../../../services/project.service';
 import { BoardService } from '../../../services/board.service';
 import { ManualLoginService } from '../../../services/manual-login.service';
+import { SidebarService } from 'src/app/services/sidebar.service';
 
 @Component({
   selector: 'app-project-item',
@@ -23,12 +29,16 @@ export class ProjectItemComponent {
   memberLists: any[] = [];
   membersDrop: any[] = [];
   members!: string;
+  componentWidth!: number;
+  matginLeft!: number;
 
   constructor(
     private route: ActivatedRoute,
     private project: ProjectService,
     private board: BoardService,
-    private users: ManualLoginService
+    private users: ManualLoginService,
+    private sidebarService: SidebarService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   projectHeadingForm = new FormGroup({
@@ -48,6 +58,13 @@ export class ProjectItemComponent {
 
         this.getboard(response.id, this.id);
       });
+    });
+
+    this.sidebarService.sidebarWidth$.subscribe((width) => {
+      this.componentWidth = this.sidebarService.calcWidth(width);
+      this.matginLeft = width;
+
+      this.cdr.detectChanges();
     });
   }
 

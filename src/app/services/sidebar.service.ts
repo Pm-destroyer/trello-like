@@ -12,6 +12,11 @@ export class SidebarService {
 
   setSidebarWidth(width: number) {
     this.sidebarWidthSubject.next(width);
-    console.log('Sidebar width updated:', width);
+  }
+
+  calcWidth(sidebarWidth: number): number {
+    const viewportWidth = window.innerWidth;
+    const calculatedWidth = viewportWidth - sidebarWidth;
+    return calculatedWidth;
   }
 }

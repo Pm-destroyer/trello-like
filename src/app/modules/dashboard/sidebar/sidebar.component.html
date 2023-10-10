@@ -6,12 +6,13 @@
   >
     <a
       [style.display]="isOpen ? 'block' : 'none'"
-      class="navbar-brand text-center"
+      class="navbar-brand text-start ps-3"
       style="color: #fff; width: 80%"
       routerLink="/dashboard"
       >{{ title }}</a
     >
     <i
+      type="button"
       (click)="toggleSidebar()"
       class="bi bi-list mx-auto"
       style="color: #fff"
