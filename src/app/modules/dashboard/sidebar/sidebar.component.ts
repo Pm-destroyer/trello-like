@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SidebarService } from '../../../services/sidebar.service';
 import { NavigationEnd, Router } from '@angular/router';
@@ -13,7 +13,7 @@ export class SidebarComponent {
   isOpen: boolean = false;
   activeMenuItem!: string;
 
-  constructor(private sidebarService: SidebarService, private router: Router) {
+  constructor(public sidebarService: SidebarService, private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.setActiveMenuItemBasedOnRoute(event.url);
@@ -40,13 +40,7 @@ export class SidebarComponent {
   }
 
   ngOnInit(): void {
-    this.sidebarService.setSidebarWidth(60);
-  }
-
-  toggleSidebar() {
-    this.isOpen = !this.isOpen;
-
-    this.sidebarService.setSidebarWidth(this.isOpen ? 250 : 60);
+    this.sidebarService.setSidebarWidth();
   }
 
   logout() {

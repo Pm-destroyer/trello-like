@@ -1,0 +1,151 @@
+<app-navbar></app-navbar>
+
+<div
+  [style.width.px]="componentWidth"
+  [style.marginLeft.px]="matginLeft"
+  class="container-fluid card my-2 d-flex flex-column component-width dashboard"
+>
+  <h3 class="py-2">Data</h3>
+  <div class="d-flex flex-row justify-content-between mb-4">
+    <div class="d-flex flex-column card p-2 project-list" style="width: 30%">
+      <h5 class="m-0">Projects</h5>
+
+      <hr class="my-2" />
+
+      <h6 class="m-1 mt-0">Projects you are managing</h6>
+
+      <div
+        type="button"
+        *ngFor="let project of projects"
+        [id]="project.id"
+        routerLink="/project/{{ project.id }}"
+      >
+        <div
+          class="card p-2 my-1 project"
+          *ngIf="project && project.project_admin === project_admin"
+        >
+          <h6 class="m-0">
+            {{ project.name }}
+          </h6>
+          <p class="m-0 pt-1" style="font-size: 0.7rem">
+            [{{ project.start_date | date : "dd/MM/yyyy" }} -
+            {{ project.end_date | date : "dd/MM/yyyy" }} ]
+          </p>
+          <p class="m-0 pt-1" style="font-size: 0.7rem">
+            <em> {{ project.project_type?.type }} </em>
+          </p>
+          <p class="m-0" style="font-size: 0.9rem">
+            {{ project.description }}
+          </p>
+        </div>
+      </div>
+
+      <h6 *ngIf="hasOtherProjects" class="m-1">Projects you are part of</h6>
+
+      <div
+        type="button"
+        *ngFor="let project of projects"
+        [id]="project.id"
+        routerLink="/project/{{ project.id }}"
+      >
+        <div
+          class="card p-2 my-1 project"
+          *ngIf="project && project.project_admin !== project_admin"
+        >
+          <h6 class="m-0">
+            {{ project.name }}
+            [<span style="font-size: 0.9rem">
+              {{ project.start_date | date : "dd/MM/yyyy" }} -
+              {{ project.end_date | date : "dd/MM/yyyy" }} </span
+            >]
+          </h6>
+          <p class="m-0" style="font-size: 0.7rem">
+            <em> {{ project.project_type?.type }} </em>
+          </p>
+          <p class="m-0">
+            {{ project.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column card p-2 project-list" style="width: 30%">
+      <h5 class="m-0">Tasks</h5>
+
+      <hr class="my-2" />
+
+      <div
+        type="button"
+        *ngFor="let project of projects"
+        [id]="project.id"
+        routerLink="/project/{{ project.id }}"
+      >
+        <div
+          class="card p-2 my-1 project"
+          *ngIf="project && project.project_admin === project_admin"
+        >
+          <h6 class="m-0">
+            {{ project.name }}
+            [<span style="font-size: 0.9rem">
+              {{ project.start_date | date : "MM/dd/yyyy" }} -
+              {{ project.end_date | date : "MM/dd/yyyy" }} </span
+            >]
+          </h6>
+          <p class="m-0" style="font-size: 0.7rem">
+            <em> {{ project.project_type?.type }} </em>
+          </p>
+          <p class="m-0">
+            {{ project.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column card p-2 project-list" style="width: 30%">
+      <div class="d-flex flex-row justify-content-between">
+        <h5 class="m-0">Members</h5>
+        <a
+          routerLink="/members"
+          class="text-primary fw-bold"
+          style="text-decoration: none"
+          >View all</a
+        >
+      </div>
+
+      <hr class="my-2" />
+
+      <div
+        type="button"
+        *ngFor="let member of members; let index = index"
+        [id]="member.id"
+        routerLink="/member/{{ member.id }}"
+      >
+        <div
+          class="card p-2 my-1 project"
+          *ngIf="member && userBgColors.length > 0"
+        >
+          <div class="d-flex flex-row justufy-content-betwwen">
+            <div
+              class="rounded-pill p-2"
+              [style]="'color: #fff; background: ' + userBgColors[index]"
+            >
+              {{ member.first_name.slice(0, 1)
+              }}{{ member.last_name.slice(0, 1) }}
+            </div>
+
+            <div class="d-flex-flex-column ms-2">
+              <h6 class="m-0">
+                {{ member.first_name }} {{ member.last_name }}
+              </h6>
+              <p class="m-0" style="font-size: 0.8rem">
+                {{ member.roleId ?? "Manager" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

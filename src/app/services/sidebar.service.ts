@@ -7,11 +7,22 @@ import { BehaviorSubject } from 'rxjs';
 export class SidebarService {
   constructor() {}
 
-  private sidebarWidthSubject = new BehaviorSubject<number>(60); // Default width
+  isOpen: boolean = false;
+
+  private sidebarWidthSubject = new BehaviorSubject<number>(
+    this.isOpen ? 250 : 60
+  );
+
   sidebarWidth$ = this.sidebarWidthSubject.asObservable();
 
-  setSidebarWidth(width: number) {
-    this.sidebarWidthSubject.next(width);
+  toggleSidebar() {
+    this.isOpen = !this.isOpen;
+
+    this.setSidebarWidth();
+  }
+
+  setSidebarWidth() {
+    this.sidebarWidthSubject.next(this.isOpen ? 250 : 60);
   }
 
   calcWidth(sidebarWidth: number): number {

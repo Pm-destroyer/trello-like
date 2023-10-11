@@ -1,11 +1,11 @@
 <div class="area"></div>
-<nav [ngClass]="{ 'main-menu': true, 'menu-expanded': isOpen }">
+<nav [ngClass]="{ 'main-menu': true, 'menu-expanded': sidebarService.isOpen }">
   <div
     class="d-flex flex-row justify-content-between"
     style="font-size: 1.5rem; padding-block: 0.65rem"
   >
     <a
-      [style.display]="isOpen ? 'block' : 'none'"
+      [style.display]="sidebarService.isOpen ? 'block' : 'none'"
       class="navbar-brand text-start ps-3"
       style="color: #fff; width: 80%"
       routerLink="/dashboard"
@@ -13,7 +13,7 @@
     >
     <i
       type="button"
-      (click)="toggleSidebar()"
+      (click)="sidebarService.toggleSidebar()"
       class="bi bi-list mx-auto"
       style="color: #fff"
     ></i>
@@ -48,6 +48,7 @@
     </li>
     <li
       [ngClass]="{ 'active-menu-item': activeMenuItem === 'members' }"
+      routerLink="/members"
       class="has-subnav"
     >
       <a>

@@ -20,6 +20,8 @@ import { ManageVisibilityComponent } from './manage-visibility/manage-visibility
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AddPriorityComponent } from './add-priority/add-priority.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { MembersComponent } from './members/members.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     UserProfileComponent,
     AddPriorityComponent,
     SidebarComponent,
+    ProjectDashboardComponent,
+    MembersComponent,
   ],
   imports: [
     CommonModule,

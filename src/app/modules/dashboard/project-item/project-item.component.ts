@@ -116,7 +116,7 @@ export class ProjectItemComponent {
         this.project.removeMember(updateMember).subscribe((response: any) => {
           this.getProjectDetails(this.id);
 
-          this.fetchUserList();
+          // this.fetchUserList();
 
           Swal.fire({
             title: `${memberName} has been removed from this project.`,
@@ -129,15 +129,15 @@ export class ProjectItemComponent {
     });
   }
 
-  fetchUserList() {
-    if (this.project_admin && this.id) {
-      this.users
-        .getUserList(this.project_admin, this.id)
-        .subscribe((response: any) => {
-          this.membersDrop = response;
-        });
-    }
-  }
+  // fetchUserList() {
+  //   if (this.project_admin && this.id) {
+  //     this.users
+  //       .getUserList(this.project_admin, this.id)
+  //       .subscribe((response: any) => {
+  //         this.membersDrop = response;
+  //       });
+  //   }
+  // }
 
   showHeadingEdit(id: number, value: string) {
     if (this.project_admin === this.projectDetails.project_admin) {

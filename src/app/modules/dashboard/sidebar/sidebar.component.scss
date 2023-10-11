@@ -78,24 +78,24 @@
 }
 
 .no-touch .scrollable.hover {
-    overflow-y:hidden;
+    overflow-y: hidden;
 }
 
 .no-touch .scrollable.hover:hover {
-    overflow-y:auto;
-    overflow:visible;
+    overflow-y: auto;
+    overflow: visible;
 }
 
 a:hover, a:focus {
-    text-decoration:none;
+    text-decoration: none;
 }
 
 nav {
-    -webkit-user-select:none;
-    -moz-user-select:none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
     -ms-user-select:none;
-    -o-user-select:none;
-    user-select:none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 nav ul, nav li {

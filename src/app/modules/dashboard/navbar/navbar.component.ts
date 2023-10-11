@@ -45,6 +45,7 @@ export class NavbarComponent {
 
   getProject(project_admin: any) {
     this.projects = [];
+
     this.project.viewProject(project_admin).subscribe((response: any) => {
       this.projects = this.projects.concat(response);
     });
