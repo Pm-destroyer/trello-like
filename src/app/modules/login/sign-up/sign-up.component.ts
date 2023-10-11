@@ -14,7 +14,7 @@ export class SignUpComponent {
 
   display: boolean = false;
   message: string = '';
-  title = 'Trello-Like';
+  title = 'Trello lite';
 
   signupForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.email]),

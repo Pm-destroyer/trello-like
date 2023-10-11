@@ -14,7 +14,7 @@ export class UserLoginComponent {
   constructor(private users: ManualLoginService, private router: Router) {}
 
   display: boolean = true;
-  title = 'Trello-Like';
+  title = 'Trello lite';
 
   loginForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.email]),

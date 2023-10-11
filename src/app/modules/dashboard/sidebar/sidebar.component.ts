@@ -9,7 +9,7 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
-  title: string = 'Trello-like';
+  title: string = 'Trello lite';
   isOpen: boolean = false;
   activeMenuItem!: string;
 

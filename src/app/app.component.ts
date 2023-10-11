@@ -8,7 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'Trello-Like';
+  title = 'Trello lite';
   loggedIn: boolean = localStorage.getItem('user') !== null;
   showLoginModule!: NavbarComponent['showLoginModule'];
 }
