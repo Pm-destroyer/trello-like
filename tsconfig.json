@@ -23,7 +23,7 @@
       "ES2022",
       "dom"
     ],
-    "types": ["jquery"]
+    "types": ["jquery", "datatables.net"]
 
   },
   "angularCompilerOptions": {

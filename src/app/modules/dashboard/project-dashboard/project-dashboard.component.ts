@@ -60,7 +60,7 @@ export class ProjectDashboardComponent {
   }
 
   getUserList() {
-    this.users.getAlluser(5).subscribe((response: any) => {
+    this.users.userListByLimit(5).subscribe((response: any) => {
       this.members = this.members.concat(response);
 
       this.userBgColor();

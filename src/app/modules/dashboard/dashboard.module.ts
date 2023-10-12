@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DataTablesModule } from 'angular-datatables';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -22,6 +23,7 @@ import { AddPriorityComponent } from './add-priority/add-priority.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { MembersComponent } from './members/members.component';
+import { DatatableComponent } from './datatable/datatable.component';
 
 @NgModule({
   declarations: [
@@ -42,12 +44,14 @@ import { MembersComponent } from './members/members.component';
     SidebarComponent,
     ProjectDashboardComponent,
     MembersComponent,
+    DatatableComponent,
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     ReactiveFormsModule,
     NgSelectModule,
+    DataTablesModule,
   ],
 })
 export class DashboardModule {}

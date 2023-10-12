@@ -8,16 +8,16 @@
   aria-labelledby="addProjectLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 50vw">
     <div class="modal-content">
       <div
-        class="modal-header mb-2"
+        class="modal-header mb-2 py-2"
         style="background-color: #233241; color: #fff"
       >
         <div>
-          <h4 class="modal-title d-block" id="addProjectLabel">
+          <h5 class="modal-title d-block" id="addProjectLabel">
             Let's build a project
-          </h4>
+          </h5>
           <p class="d-block m-0">
             Boost your productivity by making it easier for everyone to access
             boards in one location.
@@ -33,7 +33,7 @@
       </div>
       <form [formGroup]="addProjectForm" (ngSubmit)="onSubmit()">
         <div class="container">
-          <div class="mb-3">
+          <div class="mb-1">
             <strong for="name" class="form-label">Project name</strong>
             <input
               type="text"
@@ -48,7 +48,7 @@
               >Please enter a valid name</em
             >
           </div>
-          <div class="mb-3">
+          <div class="mb-1">
             <strong for="type" class="form-label">Project type</strong>
             <select
               id="type"
@@ -70,7 +70,7 @@
               >Please choose project type</em
             >
           </div>
-          <div class="mb-3">
+          <div class="mb-1">
             <strong for="description" class="form-label">
               Project description
             </strong>
@@ -78,9 +78,81 @@
             <textarea
               class="form-control"
               id="description"
-              rows="3"
+              rows="2"
               formControlName="description"
             ></textarea>
+          </div>
+          <div class="mb-1 d-flex justify-content-between">
+            <div style="width: 45%">
+              <strong for="start_date" class="form-label"> Start date </strong>
+              <input
+                type="date"
+                class="form-control"
+                id="start_date"
+                formControlName="start_date"
+              />
+              <em
+                *ngIf="addProjectForm.get('start_date')?.invalid && display"
+                style="color: red"
+                >Please select start date</em
+              >
+            </div>
+
+            <div style="width: 45%">
+              <strong for="end_date" class="form-label"> End date </strong>
+              <input
+                type="date"
+                class="form-control"
+                id="end_date"
+                formControlName="end_date"
+              />
+              <em
+                *ngIf="addProjectForm.get('end_date')?.invalid && display"
+                style="color: red"
+                >Please select end date</em
+              >
+            </div>
+          </div>
+
+          <div class="mb-1 d-flex justify-content-between">
+            <div style="width: 45%">
+              <strong for="cost_type" class="form-label">Cost type</strong>
+              <select
+                id="cost_type"
+                formControlName="cost_type"
+                class="form-select"
+                aria-label="Default select example"
+              >
+                <option selected disabled value="select">Choose...</option>
+                <option value="one-time">One-time</option>
+                <option value="monthly">Monthly</option>
+                <option value="weekly">Weekly</option>
+                <option value="daily">Daily</option>
+                <option value="hourly">Hourly</option>
+              </select>
+              <em
+                *ngIf="addProjectForm.get('type')?.invalid && display"
+                style="color: red"
+                >Please choose cost type</em
+              >
+            </div>
+
+            <div style="width: 45%">
+              <strong for="est_max_costs" class="form-label">
+                Maximum estimated costs
+              </strong>
+              <input
+                type="text"
+                class="form-control"
+                id="est_max_costs"
+                formControlName="est_max_costs"
+              />
+              <em
+                *ngIf="addProjectForm.get('est_max_costs')?.invalid && display"
+                style="color: red"
+                >Please enter a valid amount in lakhs</em
+              >
+            </div>
           </div>
         </div>
         <div class="modal-footer" style="background-color: #233241">

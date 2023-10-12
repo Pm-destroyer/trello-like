@@ -30,6 +30,15 @@ export class AddProjectComponent {
     ]),
     type: new FormControl('select', [Validators.pattern(/^(?!select$).*$/)]),
     description: new FormControl('', [Validators.maxLength(150)]),
+    start_date: new FormControl('', Validators.required),
+    end_date: new FormControl('', Validators.required),
+    est_max_costs: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[0-9\.,]{1,50}$/),
+    ]),
+    cost_type: new FormControl('select', [
+      Validators.pattern(/^(?!select$).*$/),
+    ]),
   });
 
   ngOnInit() {
@@ -55,22 +64,20 @@ export class AddProjectComponent {
         userId: this.userId,
       };
 
-      this.project
-        .addProject(updatedFormValue)
-        .subscribe((response: any) => {
-          this.addProjectForm.reset();
+      this.project.addProject(updatedFormValue).subscribe((response: any) => {
+        this.addProjectForm.reset();
 
-          this.getProject.emit(this.userId);
+        this.getProject.emit(this.userId);
 
-          this.modalclose.nativeElement.click();
+        this.modalclose.nativeElement.click();
 
-          Swal.fire({
-            title: `Your project has been added succesfully`,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1500,
-          });
+        Swal.fire({
+          title: `Your project has been added succesfully`,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
         });
+      });
     } else {
       this.display = true;
     }
@@ -82,6 +89,10 @@ export class AddProjectComponent {
       name: '',
       type: 'select',
       description: '',
+      start_date: '',
+      end_date: '',
+      est_max_costs: '',
+      cost_type: 'select',
     });
   }
 }

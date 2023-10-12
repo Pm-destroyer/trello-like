@@ -43,8 +43,12 @@ export class ManualLoginService {
     });
   }
 
-  getAlluser(limit: number) {
-    return this.http.post(this.rootURL + '/userList', { limit: limit });
+  // getAlluser(limit: number) {
+  //   return this.http.post(this.rootURL + '/userList', { limit: limit });
+  // }
+
+  userListByLimit(limit: number) {
+    return this.http.post(this.rootURL + '/userListByLimit', { limit: limit });
   }
 
   userDropByWorkspace(id: number, projectId: string) {

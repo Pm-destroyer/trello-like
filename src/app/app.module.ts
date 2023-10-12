@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
+import { DataTablesModule } from 'angular-datatables';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +12,14 @@ import { NotFoundPageComponent } from './components/not-found-page/not-found-pag
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, NotFoundPageComponent],
-  imports: [BrowserModule, AppRoutingModule, LoginModule, SocialLoginModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    LoginModule,
+    SocialLoginModule,
+    DataTablesModule,
+  ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent],
 })
