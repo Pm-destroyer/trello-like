@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root',
 })
 export class BoardService {
   constructor(private http: HttpClient) {}
 
-  rootURL = 'http://localhost:8000/board';
+  rootURL = `${environment.API_URL}/board`;
 
   addBoard(board: any) {
     return this.http.post(this.rootURL + '/create', board);

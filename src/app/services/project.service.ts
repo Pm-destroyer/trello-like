@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../environments/environment'
+
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
   constructor(private http: HttpClient) {}
 
-  rootURL = 'http://localhost:8000/project';
+  rootURL = `${environment.API_URL}/project`;
 
   addProject(project: any) {
     return this.http.post(this.rootURL + '/create', project);

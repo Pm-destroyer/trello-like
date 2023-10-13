@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../environments/environment'
+
 @Injectable({
   providedIn: 'root',
 })
 export class ActivityService {
   constructor(private http: HttpClient) {}
 
-  rootURL = 'http://localhost:8000/activity';
+  rootURL = `${environment.API_URL}/activity`;
 
   addActivity(activity: any) {
     return this.http.post(this.rootURL + '/create', activity);

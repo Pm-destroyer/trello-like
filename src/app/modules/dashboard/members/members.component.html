@@ -5,7 +5,19 @@
   [style.marginLeft.px]="matginLeft"
   class="container-fuild card p-4 my-2 component-width"
 >
-  <h3>Members</h3>
+  <div class="d-flex justify-content-between mb-2">
+    <h3 class="m-0">Members</h3>
 
-  <app-datatable></app-datatable>
+    <a
+      type="button"
+      class="btn addMember"
+      data-bs-toggle="modal"
+      data-bs-target="#addMember"
+      >Add member</a
+    >
+  </div>
+
+  <app-datatable [API]="userListAPI" [columns]="datatableColumns"></app-datatable>
+
+  <app-add-member></app-add-member>
 </div>

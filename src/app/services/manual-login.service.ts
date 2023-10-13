@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { environment } from '../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +10,8 @@ import { Observable, throwError } from 'rxjs';
 export class ManualLoginService {
   constructor(private http: HttpClient) {}
 
-  rootURL = 'http://localhost:8000/user';
+  rootURL = `${environment.API_URL}/user`;
+
   colorArr = [
     '#618264',
     '#186F65',
@@ -42,10 +45,6 @@ export class ManualLoginService {
       projectId: projectId,
     });
   }
-
-  // getAlluser(limit: number) {
-  //   return this.http.post(this.rootURL + '/userList', { limit: limit });
-  // }
 
   userListByLimit(limit: number) {
     return this.http.post(this.rootURL + '/userListByLimit', { limit: limit });

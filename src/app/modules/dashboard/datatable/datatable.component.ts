@@ -9,6 +9,9 @@ import { HttpClient } from '@angular/common/http';
 export class DatatableComponent {
   dtOptions: DataTables.Settings = {};
 
+  @Input() API!: string;
+  @Input() columns!: any[];
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -16,7 +19,7 @@ export class DatatableComponent {
       serverSide: true, // Set the flag
       ajax: (dataTablesParameters: any, callback) => {
         this.http
-          .post('http://localhost:8000/user/userList', dataTablesParameters, {})
+          .post(this.API, dataTablesParameters, {})
           .subscribe((resp: any) => {
             callback({
               recordsTotal: resp.recordsTotal,
@@ -25,20 +28,7 @@ export class DatatableComponent {
             });
           });
       },
-      columns: [
-        {
-          title: 'First name',
-          data: 'first_name',
-        },
-        {
-          title: 'Last name',
-          data: 'last_name',
-        },
-        {
-          title: 'User name',
-          data: 'username',
-        },
-      ],
+      columns: this.columns,
     };
   }
 }
