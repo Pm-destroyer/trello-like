@@ -21,8 +21,14 @@ const routes: Routes = [
   },
   {
     path: 'tasks',
-    component: TasksComponent,
     canActivate: [AuthGuard],
+    children: [
+      {
+        path: ':projectId',
+        component: TasksComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
   },
   {
     path: 'project-dashboard',

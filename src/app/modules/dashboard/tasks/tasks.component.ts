@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { SidebarService } from 'src/app/services/sidebar.service';
 
 import { environment } from '../../../../environments/environment';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
@@ -12,7 +13,8 @@ export class TasksComponent {
   componentWidth!: number;
   matginLeft!: number;
 
-  userListAPI: string = `${environment.API_URL}/task/viewTaskByProjectId`;
+  userListAPI: string = `${environment.API_URL}/task/viewByProjectId`;
+  projectId!: string;
   datatableColumns: any[] = [
     {
       title: 'Name',
@@ -50,7 +52,8 @@ export class TasksComponent {
 
   constructor(
     private sidebarService: SidebarService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -59,6 +62,10 @@ export class TasksComponent {
       this.matginLeft = width;
 
       this.cdr.detectChanges();
+    });
+
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.projectId = params.get('projectId')!;
     });
   }
 }

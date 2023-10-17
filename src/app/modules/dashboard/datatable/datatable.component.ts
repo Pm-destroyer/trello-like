@@ -10,6 +10,7 @@ export class DatatableComponent {
   dtOptions: DataTables.Settings = {};
 
   @Input() API!: string;
+  @Input() request!: any;
   @Input() columns!: any[];
 
   constructor(private http: HttpClient) {}
@@ -19,7 +20,13 @@ export class DatatableComponent {
       serverSide: true, // Set the flag
       ajax: (dataTablesParameters: any, callback) => {
         this.http
-          .post(this.API, dataTablesParameters, {})
+          .post(
+            this.API,
+            this.request
+              ? { ...dataTablesParameters, ...this.request }
+              : dataTablesParameters,
+            {}
+          )
           .subscribe((resp: any) => {
             callback({
               recordsTotal: resp.recordsTotal,

@@ -20,6 +20,7 @@
   <app-datatable
     [API]="userListAPI"
     [columns]="datatableColumns"
+    [request]="{ project_id: projectId }"
   ></app-datatable>
 
   <app-add-task></app-add-task>
