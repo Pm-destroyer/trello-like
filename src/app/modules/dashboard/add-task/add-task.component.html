@@ -1,23 +1,158 @@
+<!-- Modal -->
 <div
-  [id]="'addTask-' + activityIndex"
-  type="button"
-  class="card-body p-2 addtask text-center"
-  (click)="showAddActivity()"
+  class="modal fade"
+  id="addTask"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="addTaskLabel"
+  aria-hidden="true"
 >
-  ADD A TASK
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 50vw">
+    <div class="modal-content">
+      <div
+        class="modal-header mb-2 py-2"
+        style="background-color: #233241; color: #fff"
+      >
+        <div>
+          <h5 class="modal-title d-block" id="addTaskLabel">Add new task</h5>
+          <p class="d-block m-0">This task will only exist in this project</p>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="onCancel()"
+        ></button>
+      </div>
+      <form [formGroup]="addTaskForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+          <div class="mb-1">
+            <strong for="name" class="form-label">Name</strong>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              formControlName="name"
+              placeholder="Enter task name"
+            />
+            <em
+              *ngIf="addTaskForm.get('name')?.invalid && display"
+              style="color: red"
+              >Please enter a valid name</em
+            >
+          </div>
+          <div class="mb-1">
+            <strong for="Priority" class="form-label">Priority</strong>
+            <select
+              id="Priority"
+              formControlName="priorityId"
+              class="form-select"
+              aria-label="Default select example"
+            >
+              <option selected disabled value="select">Choose...</option>
+              <option
+                *ngFor="let priority of priorityList"
+                [value]="priority.id"
+              >
+                {{ priority.name }}
+              </option>
+            </select>
+            <em
+              *ngIf="addTaskForm.get('type')?.invalid && display"
+              style="color: red"
+              >Please choose task priority</em
+            >
+          </div>
+
+          <div class="mb-1 d-flex justify-content-between">
+            <div style="width: 45%">
+              <strong for="estimated_hours" class="form-label"
+                >Estimated hours</strong
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="estimated_hours"
+                formControlName="estimated_hours"
+                placeholder="Enter estimated hours"
+              />
+              <em
+                *ngIf="addTaskForm.get('estimated_hours')?.invalid && display"
+                style="color: red"
+                >Please enter a time (In hours)</em
+              >
+            </div>
+            <div style="width: 45%">
+              <strong for="actual_hours" class="form-label"
+                >Actual hours</strong
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="actual_hours"
+                formControlName="actual_hours"
+                placeholder="Enter actual hours"
+              />
+              <em
+                *ngIf="addTaskForm.get('actual_hours')?.invalid && display"
+                style="color: red"
+                >Please enter a time (In hours)</em
+              >
+            </div>
+          </div>
+
+          <div class="mb-1 d-flex justify-content-between">
+            <div style="width: 45%">
+              <strong for="start_date" class="form-label"> Start date </strong>
+              <input
+                type="date"
+                class="form-control"
+                id="start_date"
+                formControlName="start_date"
+              />
+              <em
+                *ngIf="addTaskForm.get('start_date')?.invalid && display"
+                style="color: red"
+                >Please select start date</em
+              >
+            </div>
+
+            <div style="width: 45%">
+              <strong for="end_date" class="form-label"> End date </strong>
+              <input
+                type="date"
+                class="form-control"
+                id="end_date"
+                formControlName="end_date"
+              />
+              <em
+                *ngIf="addTaskForm.get('end_date')?.invalid && display"
+                style="color: red"
+                >Please select end date</em
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="background-color: #233241">
+          <button
+            #modalclose
+            type="button"
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+            (click)="onCancel()"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-success" (click)="onSubmit()">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
-<form
-  [id]="'addTaskForm-' + activityIndex"
-  [formGroup]="addTaskForm"
-  style="display: none"
-  class="card-body p-0"
->
-  <textarea
-    [id]="'taskInput-' + activityIndex"
-    formControlName="name"
-    type="text"
-    class="form-control"
-    (blur)="onCancel()"
-  ></textarea>
-</form>
+<router-outlet></router-outlet>

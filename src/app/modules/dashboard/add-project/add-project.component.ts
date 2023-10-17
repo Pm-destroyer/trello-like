@@ -94,5 +94,7 @@ export class AddProjectComponent {
       est_max_costs: '',
       cost_type: 'select',
     });
+
+    this.display = false;
   }
 }

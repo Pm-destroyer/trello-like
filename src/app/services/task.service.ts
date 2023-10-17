@@ -17,9 +17,10 @@ export class TaskService {
     return this.http.post(this.rootURL + '/create', task);
   }
 
-  viewTask(activityId: number) {
-    return this.http.post(this.rootURL + '/viewTask', {
-      activityId: activityId,
+  viewTaskByLimit(project_id: string, limit: number) {
+    return this.http.post(this.rootURL + '/viewTaskByLimit', {
+      project_id: project_id,
+      limit: limit,
     });
   }
 

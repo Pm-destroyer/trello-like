@@ -1,7 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 import { TaskService } from '../../../services/task.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-add-task',
@@ -9,63 +17,95 @@ import { TaskService } from '../../../services/task.service';
   styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent {
+  @ViewChild('modalclose') modalclose: any;
+
   @Input() activityIndex!: number;
   @Input() activityId!: number;
   @Input() userId!: number;
 
   @Output() getTask: EventEmitter<any> = new EventEmitter();
 
-  constructor(private task: TaskService) {}
+  constructor(private task: TaskService, private route: ActivatedRoute) {}
 
   activityDetails: any;
+  priorityList: any;
   projectId!: string;
   boardId!: string;
+  display: boolean = false;
 
   addTaskForm = new FormGroup({
-    name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(250),
+    name: new FormControl('', [Validators.required]),
+    priorityId: new FormControl('select', [
+      Validators.pattern(/^(?!select$).*$/),
     ]),
+    estimated_hours: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[0-9\.]{1,50}$/),
+    ]),
+    actual_hours: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[0-9\.]{1,50}$/),
+    ]),
+    start_date: new FormControl('', Validators.required),
+    end_date: new FormControl('', Validators.required),
   });
 
-  onCancel() {
-    const div = document.getElementById('addTask-' + this.activityIndex)!;
-    const form = document.getElementById('addTaskForm-' + this.activityIndex)!;
+  ngOnInit() {
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.projectId = params.get('projectId')!;
+    });
 
+    this.task.priorityList().subscribe((response: any) => {
+      this.priorityList = response;
+    });
+  }
+
+  onSubmit() {
     if (!this.addTaskForm.invalid) {
+      this.display = false;
+
       const updatedFormValue = {
         ...this.addTaskForm.value,
-        activityId: this.activityId,
-        userId: this.userId,
+        project_id: this.projectId,
       };
 
       this.task.addTask(updatedFormValue).subscribe((response: any) => {
         this.addTaskForm.reset();
 
-        this.getTask.emit(this.activityId);
-      });
-    }
+        this.addTaskForm.patchValue({
+          name: '',
+          priorityId: 'select',
+          estimated_hours: '',
+          actual_hours: '',
+          start_date: '',
+          end_date: '',
+        });
 
+        this.modalclose.nativeElement.click();
+
+        Swal.fire({
+          title: `Your task has been added succesfully`,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+    } else {
+      this.display = true;
+    }
+  }
+
+  onCancel() {
     this.addTaskForm.reset();
     this.addTaskForm.patchValue({
       name: '',
+      priorityId: 'select',
+      estimated_hours: '',
+      actual_hours: '',
+      start_date: '',
+      end_date: '',
     });
 
-    div.style.display = 'block';
-    form.style.display = 'none';
-  }
-
-  showAddActivity() {
-    const div = document.getElementById('addTask-' + this.activityIndex)!;
-    const form = document.getElementById('addTaskForm-' + this.activityIndex)!;
-    const input = document.getElementById('taskInput-' + this.activityIndex)!;
-
-    console.log(input);
-
-    div.style.display = 'none';
-    form.style.display = 'block';
-
-    input?.focus();
+    this.display = false;
   }
 }

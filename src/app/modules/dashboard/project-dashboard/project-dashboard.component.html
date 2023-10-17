@@ -1,0 +1,99 @@
+<app-navbar></app-navbar>
+
+<div
+  [style.width.px]="componentWidth"
+  [style.marginLeft.px]="matginLeft"
+  class="container-fluid card my-2 d-flex flex-column component-width dashboard"
+>
+  <div class="d-flex justify-content-between py-2">
+    <h3>Project Dashboard</h3>
+
+    <a
+      type="button"
+      class="btn addTask my-auto"
+      data-bs-toggle="modal"
+      data-bs-target="#addTask"
+      >Add task</a
+    >
+  </div>
+
+  <hr class="m-0 mb-3" />
+
+  <div class="d-flex flex-row justify-content-between mb-4">
+    <div class="d-flex flex-column" style="width: 60%">
+      <h4 class="mb-2">Overview</h4>
+      <div class="" *ngIf="projectDetails">
+        <h5 class="card-title">{{ projectDetails.name }}</h5>
+
+        <p class="card-subtitle mb-2 text-muted">
+          {{ projectDetails.project_type?.type ?? "-" }}
+        </p>
+
+        <div class="d-flex mb-2">
+          <i class="bi bi-calendar-week me-1"></i>
+          <p class="m-0 fw-bold text-secondary">
+            {{ projectDetails.start_date | date : "dd/MM/yyyy" }} -
+            {{ projectDetails.end_date | date : "dd/MM/yyyy" }}
+          </p>
+        </div>
+
+        <p class="mb-2">
+          {{ projectDetails.description }}
+        </p>
+        <p class="mb-2">
+          {{ projectDetails.cost_type ?? "-" }}
+        </p>
+        <p class="mb-2">
+          {{ projectDetails?.est_max_costs ?? "-" }}
+        </p>
+      </div>
+    </div>
+
+    <div class="card d-flex flex-column p-2 task-list" style="width: 30%">
+      <div class="d-flex flex-row justify-content-between">
+        <h5 class="m-0 mb-2">Task list</h5>
+        <a
+          routerLink="/tasks"
+          class="text-primary fw-bold"
+          style="text-decoration: none"
+          >View all</a
+        >
+      </div>
+
+      <div class="" *ngIf="taskDetails.length > 0">
+        <div
+          class="card p-2 my-1 task"
+          *ngFor="let task of taskDetails; let index = index"
+        >
+          <div class="d-flex flex-row justify-content-between">
+            <div class="d-flex-flex-column ms-2" style="width: 70%">
+              <h6 class="m-0 text-wrap">
+                {{ task.name }}
+              </h6>
+              <p class="m-0" style="font-size: 0.8rem">
+                {{ task.status }}
+              </p>
+            </div>
+
+            <p [ngSwitch]="task.priority?.name" class="me-2">
+              <i
+                *ngSwitchCase="'High'"
+                class="bi bi-exclamation-circle-fill text-danger"
+              ></i>
+              <i
+                *ngSwitchCase="'Medium'"
+                class="bi bi-exclamation-circle-fill text-warning"
+              ></i>
+              <i
+                *ngSwitchCase="'Low'"
+                class="bi bi-exclamation-circle-fill text-success"
+              ></i>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-add-task></app-add-task>

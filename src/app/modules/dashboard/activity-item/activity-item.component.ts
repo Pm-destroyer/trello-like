@@ -131,8 +131,8 @@ export class ActivityItemComponent {
   }
 
   getTask(activityId: number) {
-    this.task.viewTask(activityId).subscribe((response: any) => {
-      this.taskDetails[activityId] = response;
-    });
+    // this.task.viewTask(activityId).subscribe((response: any) => {
+    //   this.taskDetails[activityId] = response;
+    // });
   }
 }

@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+
+<div
+  [style.width.px]="componentWidth"
+  [style.marginLeft.px]="matginLeft"
+  class="container-fuild card p-4 my-2 component-width"
+>
+  <div class="d-flex justify-content-between mb-2">
+    <h3 class="m-0">Tasks</h3>
+
+    <a
+      type="button"
+      class="btn addTask"
+      data-bs-toggle="modal"
+      data-bs-target="#addTask"
+      >Add task</a
+    >
+  </div>
+
+  <app-datatable
+    [API]="userListAPI"
+    [columns]="datatableColumns"
+  ></app-datatable>
+
+  <app-add-task></app-add-task>
+</div>

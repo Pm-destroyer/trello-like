@@ -18,6 +18,7 @@
           type="button"
           *ngFor="let project of projects"
           [id]="project.id"
+          routerLink="/project-dashboard/{{ project.id }}"
           (click)="previewProject(project.id)"
         >
           <div class="card p-2 my-1 project">

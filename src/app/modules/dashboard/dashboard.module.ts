@@ -24,6 +24,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MembersComponent } from './members/members.component';
 import { DatatableComponent } from './datatable/datatable.component';
+import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { TasksComponent } from './tasks/tasks.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { DatatableComponent } from './datatable/datatable.component';
     DashboardComponent,
     MembersComponent,
     DatatableComponent,
+    ProjectDashboardComponent,
+    TasksComponent,
   ],
   imports: [
     CommonModule,

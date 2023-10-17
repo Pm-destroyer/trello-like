@@ -5,6 +5,8 @@ import { MembersComponent } from './members/members.component';
 import { AuthGuard } from '../../guards/auth.guard';
 import { ProjectItemComponent } from './project-item/project-item.component';
 import { BoardItemComponent } from './board-item/board-item.component';
+import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { TasksComponent } from './tasks/tasks.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,22 @@ const routes: Routes = [
     path: 'members',
     component: MembersComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'tasks',
+    component: TasksComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'project-dashboard',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: ':projectId',
+        component: ProjectDashboardComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
   },
   {
     path: 'project',
