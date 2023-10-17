@@ -21,7 +21,7 @@ import { ManageVisibilityComponent } from './manage-visibility/manage-visibility
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AddPriorityComponent } from './add-priority/add-priority.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { MembersComponent } from './members/members.component';
 import { DatatableComponent } from './datatable/datatable.component';
 
@@ -42,7 +42,7 @@ import { DatatableComponent } from './datatable/datatable.component';
     UserProfileComponent,
     AddPriorityComponent,
     SidebarComponent,
-    ProjectDashboardComponent,
+    DashboardComponent,
     MembersComponent,
     DatatableComponent,
   ],

@@ -1,0 +1,170 @@
+<app-navbar></app-navbar>
+
+<div
+  [style.width.px]="componentWidth"
+  [style.marginLeft.px]="matginLeft"
+  class="container-fluid card my-2 d-flex flex-column component-width dashboard"
+>
+  <h3 class="py-2">Dashboard</h3>
+  <hr class="mb-3" />
+  <div class="d-flex flex-row justify-content-between mb-4">
+    <div class="d-flex justify-content-start" style="width: 70%">
+      <div class="d-flex flex-column card p-2 project-list" style="width: 40%">
+        <h5 class="m-0">My Projects</h5>
+
+        <hr class="my-2" />
+
+        <div
+          type="button"
+          *ngFor="let project of projects"
+          [id]="project.id"
+          (click)="previewProject(project.id)"
+        >
+          <div class="card p-2 my-1 project">
+            <div class="d-flex justify-content-between">
+              <h6 class="m-0 mb-1 text-wrap">
+                {{ project.name }}
+              </h6>
+
+              <h6>
+                <span class="badge bg-secondary me-2">{{
+                  project.project_type?.short_name
+                }}</span>
+              </h6>
+            </div>
+
+            <div class="d-flex">
+              <i class="bi bi-calendar-week me-1"></i>
+              <p
+                class="m-0 mb-2 pt-1 fw-bold text-secondary"
+                style="font-size: 0.7rem"
+              >
+                {{ project.start_date | date : "dd/MM/yyyy" }} -
+                {{ project.end_date | date : "dd/MM/yyyy" }}
+              </p>
+            </div>
+            <p class="m-0" style="font-size: 0.9rem">
+              {{ project.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-body" *ngIf="projectById; else noPreview">
+        <h5 class="card-title mb-2">{{ projectById.name }}</h5>
+
+        <h6 class="card-subtitle mb-2 text-muted">
+          {{ projectById.project_type?.type ?? "-" }}
+        </h6>
+
+        <div class="d-flex mb-2">
+          <i class="bi bi-calendar-week me-1"></i>
+          <p class="m-0 fw-bold text-secondary">
+            {{ projectById.start_date | date : "dd/MM/yyyy" }} -
+            {{ projectById.end_date | date : "dd/MM/yyyy" }}
+          </p>
+        </div>
+        <p class="mb-2">
+          {{ projectById.description }}
+        </p>
+        <p class="mb-2">
+          {{ projectById.cost_type ?? "-" }}
+        </p>
+        <p class="mb-2">
+          {{ projectById?.est_max_costs ?? "-" }}
+        </p>
+      </div>
+
+      <ng-template #noPreview>
+        <div
+          class="d-flex justify-content-center align-items-center py-auto"
+          style="width: 60%"
+        >
+          <h6>No preview available</h6>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="d-flex flex-column card p-2 task-list" style="width: 30%">
+      <h5 class="m-0">My Tasks</h5>
+
+      <hr class="my-2" />
+
+      <div
+        type="button"
+        *ngFor="let project of projects"
+        [id]="project.id"
+        routerLink="/project/{{ project.id }}"
+      >
+        <div
+          class="card p-2 my-1 project"
+          *ngIf="project && project.project_admin === project_admin"
+        >
+          <h6 class="m-0">
+            {{ project.name }}
+            [<span style="font-size: 0.9rem">
+              {{ project.start_date | date : "MM/dd/yyyy" }} -
+              {{ project.end_date | date : "MM/dd/yyyy" }} </span
+            >]
+          </h6>
+          <p class="m-0" style="font-size: 0.7rem">
+            <em> {{ project.project_type?.type }} </em>
+          </p>
+          <p class="m-0">
+            {{ project.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="d-none d-flex flex-column card p-2 project-list"
+      style="width: 30%"
+    >
+      <div class="d-flex flex-row justify-content-between">
+        <h5 class="m-0">Members</h5>
+        <a
+          routerLink="/members"
+          class="text-primary fw-bold"
+          style="text-decoration: none"
+          >View all</a
+        >
+      </div>
+
+      <hr class="my-2" />
+
+      <div
+        type="button"
+        *ngFor="let member of members; let index = index"
+        [id]="member.id"
+        routerLink="/member/{{ member.id }}"
+      >
+        <div
+          class="card p-2 my-1 project"
+          *ngIf="member && userBgColors.length > 0"
+        >
+          <div class="d-flex flex-row justufy-content-betwwen">
+            <div
+              class="rounded-pill p-2"
+              [style]="'color: #fff; background: ' + userBgColors[index]"
+            >
+              {{ member.first_name.slice(0, 1)
+              }}{{ member.last_name.slice(0, 1) }}
+            </div>
+
+            <div class="d-flex-flex-column ms-2">
+              <h6 class="m-0">
+                {{ member.first_name }} {{ member.last_name }}
+              </h6>
+              <p class="m-0" style="font-size: 0.8rem">
+                {{ member.roleId ?? "Manager" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

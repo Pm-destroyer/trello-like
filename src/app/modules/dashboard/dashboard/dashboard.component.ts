@@ -4,17 +4,18 @@ import { ProjectService } from 'src/app/services/project.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
 
 @Component({
-  selector: 'app-project-dashboard',
-  templateUrl: './project-dashboard.component.html',
-  styleUrls: ['./project-dashboard.component.scss'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class ProjectDashboardComponent {
+export class DashboardComponent {
   componentWidth!: number;
   matginLeft!: number;
   project_admin!: number;
   userName!: string;
   hasOtherProjects!: boolean;
   projects: any[] = [];
+  projectById!: any;
   members: any[] = [];
   userBgColors: string[] = [];
 
@@ -74,5 +75,13 @@ export class ProjectDashboardComponent {
         this.userBgColors.push(randomColor);
       }
     }
+  }
+
+  previewProject(id: string) {
+    this.projectById = this.projects.find((item: any) => item.id === id);
+
+    console.log(this.projects);
+    console.log(id);
+    console.log(this.projectById);
   }
 }

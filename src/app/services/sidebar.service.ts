@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+import { ManualLoginService } from '../services/manual-login.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class SidebarService {
-  constructor() {}
+  constructor(private user: ManualLoginService) {}
 
   isOpen: boolean = false;
 

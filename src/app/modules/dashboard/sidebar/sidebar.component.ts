@@ -22,8 +22,8 @@ export class SidebarComponent {
   }
 
   setActiveMenuItemBasedOnRoute(url: string) {
-    if (url.includes('/dashboard')) {
-      this.activeMenuItem = 'dashboard';
+    if (url.includes('/project-dashboard')) {
+      this.activeMenuItem = 'project-dashboard';
     } else if (url.includes('/tasks')) {
       this.activeMenuItem = 'tasks';
     } else if (url.includes('/boards')) {
@@ -35,7 +35,7 @@ export class SidebarComponent {
     } else if (url.includes('/settings')) {
       this.activeMenuItem = 'settings';
     } else {
-      this.activeMenuItem = 'dashboard';
+      this.activeMenuItem = 'project-dashboard';
     }
   }
 
