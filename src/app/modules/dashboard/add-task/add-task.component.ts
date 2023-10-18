@@ -27,8 +27,7 @@ export class AddTaskComponent {
 
   constructor(private task: TaskService, private route: ActivatedRoute) {}
 
-  activityDetails: any;
-  priorityList: any;
+  priorityList: any[] = [];
   projectId!: string;
   boardId!: string;
   display: boolean = false;

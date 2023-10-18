@@ -44,9 +44,9 @@
             >
           </div>
           <div class="mb-1">
-            <strong for="Priority" class="form-label">Priority</strong>
+            <strong for="priorityId" class="form-label">Priority</strong>
             <select
-              id="Priority"
+              id="priorityId"
               formControlName="priorityId"
               class="form-select"
               aria-label="Default select example"
@@ -60,7 +60,7 @@
               </option>
             </select>
             <em
-              *ngIf="addTaskForm.get('type')?.invalid && display"
+              *ngIf="addTaskForm.get('priorityId')?.invalid && display"
               style="color: red"
               >Please choose task priority</em
             >

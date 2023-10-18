@@ -21,7 +21,7 @@ export class TasksComponent {
       data: 'name',
     },
     {
-      title: 'status',
+      title: 'Status',
       data: 'status',
     },
     {
