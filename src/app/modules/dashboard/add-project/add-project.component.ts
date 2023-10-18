@@ -20,7 +20,7 @@ export class AddProjectComponent {
   ) {}
 
   display: boolean = false;
-  userId!: number;
+  project_admin!: number;
   projectTypes: any[] = [];
 
   addProjectForm = new FormGroup({
@@ -46,12 +46,12 @@ export class AddProjectComponent {
       this.projectTypes = this.projectTypes.concat(response);
     });
 
-    this.getUserId();
+    this.getproject_admin();
   }
 
-  getUserId() {
+  getproject_admin() {
     this.users.getUsers().subscribe((response: any) => {
-      this.userId = response.id;
+      this.project_admin = response.id;
     });
   }
 
@@ -61,13 +61,13 @@ export class AddProjectComponent {
 
       const updatedFormValue = {
         ...this.addProjectForm.value,
-        userId: this.userId,
+        project_admin: this.project_admin,
       };
 
       this.project.addProject(updatedFormValue).subscribe((response: any) => {
         this.addProjectForm.reset();
 
-        this.getProject.emit(this.userId);
+        this.getProject.emit(this.project_admin);
 
         this.modalclose.nativeElement.click();
 
